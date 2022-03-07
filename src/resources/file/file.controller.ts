@@ -2,7 +2,7 @@ import { Post, Route, FormField, Res, TsoaResponse, Security, Tags, UploadedFile
 import * as fileService from "./file.service";
 
 @Route("api/admin/files")
-// @Security("Bearer", ["admin"])
+// @Security("Bearer", ["admin"] auth admin
 @Tags("Fichiers")
 export class FilesController extends Controller {
       @Post("image")
