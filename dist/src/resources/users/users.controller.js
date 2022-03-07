@@ -1,30 +1,4 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -34,38 +8,261 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Users = void 0;
-var tsoa_1 = require("tsoa");
-var google_libphonenumber_1 = require("google-libphonenumber");
-var users_ = [
-    { id: 1, email: "Bin", name: "jacob", phoneNumber: "123" },
-    { id: 2, email: "louis", name: "ngambo", phoneNumber: "567" },
-];
-var Users = /** @class */ (function (_super) {
-    __extends(Users, _super);
-    function Users() {
-        return _super !== null && _super.apply(this, arguments) || this;
+const tsoa_1 = require("tsoa");
+const users_service_1 = __importDefault(require("./users.service"));
+const autorization_1 = __importDefault(require("../../middleware/autorization"));
+const user_1 = require("../users/user");
+let Users = class Users extends tsoa_1.Controller {
+    constructor() {
+        super(...arguments);
+        this.user = new users_service_1.default();
     }
-    Users.prototype.getUsers = function () {
-        return users_;
-    };
-    Users.prototype.createUser = function (values) {
-        var phoneUtil = google_libphonenumber_1.PhoneNumberUtil.getInstance();
-        var valid = phoneUtil.isValidNumber(phoneUtil.parse(values.phoneNumber));
-        console.log(valid);
-        return __assign({}, values);
-    };
-    __decorate([
-        (0, tsoa_1.Get)()
-    ], Users.prototype, "getUsers", null);
-    __decorate([
-        (0, tsoa_1.Post)(),
-        __param(0, (0, tsoa_1.Body)())
-    ], Users.prototype, "createUser", null);
-    Users = __decorate([
-        (0, tsoa_1.Route)("users")
-    ], Users);
-    return Users;
-}(tsoa_1.Controller));
+    createCustomer(item, success, badRequest) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let result = yield this.user.registre(item);
+            return result[0] ? success(200, { status: true, user: result[0] })
+                : badRequest(400, { status: false, message: result[1] });
+        });
+    }
+    createUsers(item, success, badRequest) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let result = yield this.user.registre(item);
+            return result[0] ? success(200, { status: true, user: result[0] })
+                : badRequest(400, { status: false, message: result[1] });
+        });
+    }
+    update(item, success, badRequest, request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let result = yield this.user.update(autorization_1.default.user(request), item);
+            return result[0] ? success(200, { status: true, user: result[0] })
+                : badRequest(400, { status: false, message: result[1] });
+        });
+    }
+    changePhoneNunber(item, success, badRequest, request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let result = yield this.user.changePhone(item);
+            return result[0] ? success(200, { status: true, user: result[0] })
+                : badRequest(400, { status: false, message: result[1] });
+        });
+    }
+    resendOTP(item, success, badRequest) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let result = yield this.user.resendOTP(item);
+            return result[0] ? success(200, { status: true, user: result[0] })
+                : badRequest(400, { status: false, message: result[1] });
+        });
+    }
+    activeAcount(item, success, badRequest) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let result = yield this.user.activeAccount(item);
+            return result[0] ? success(200, { status: true, user: result[0], token: result[1] })
+                : badRequest(400, { status: false, message: result[1] });
+        });
+    }
+    signIn(item, success, badRequest) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let result = yield this.user.login(item);
+            return result[0] ? success(200, { status: true, user: result[0], token: result[1] })
+                : badRequest(400, { status: false, message: result[1] });
+        });
+    }
+    changePassword(input, success, badRequest, request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let result = yield this.user.changePassword(autorization_1.default.user(request), input);
+            return result[0] ? success(200, { status: true, user: result[0] })
+                : badRequest(400, { status: false, message: result[1] });
+        });
+    }
+    acountStatus(input, success, badRequest, authorization, request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!autorization_1.default.role(request, user_1.ROLES.ADMIN))
+                return authorization(501, {
+                    status: false, message: "Vous ne disposez pas de " +
+                        "droit pour effectuer cette demande."
+                });
+            let result = yield this.user.status(input);
+            return result[0] ? success(200, { status: true, user: result[0] })
+                : badRequest(400, { status: false, message: result[1] });
+        });
+    }
+    getrestoreCode(input, success, badRequest) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let result = yield this.user.sendRestoreCode(input);
+            return result[0] ? success(200, { status: true, user: result[0] })
+                : badRequest(400, { status: false, message: result[1] });
+        });
+    }
+    getToken(input, success, badRequest) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let result = yield this.user.getTokenToRestorePsswd(input);
+            return result[0] ? success(200, { status: true, token: result[0] })
+                : badRequest(400, { status: false, message: result[1] });
+        });
+    }
+    restorePsswd(input, success, badRequest, request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let result = yield this.user.RestorePassword(autorization_1.default.user(request), input);
+            return result[0] ? success(200, { status: true, token: result[0] })
+                : badRequest(400, { status: false, message: result[1] });
+        });
+    }
+    getUsers(status = true, offset = 1, limit = 100, success, authorization, request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!autorization_1.default.role(request, user_1.ROLES.ADMIN))
+                return authorization(501, {
+                    status: false, message: "Vous ne disposez pas de " +
+                        "droit pour effectuer cette demande."
+                });
+            let result = yield this.user.getAll(status, offset, limit, false);
+            return success(200, { status: true, users: result });
+        });
+    }
+    getCustomer(status = true, offset = 1, limit = 100, success) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let result = yield this.user.getAll(status, offset, limit, true);
+            return success(200, { status: true, users: result });
+        });
+    }
+    Delete(input, succes, badRequest, noAuth, request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!autorization_1.default.role(request, user_1.ROLES.ADMIN))
+                return noAuth(501, {
+                    status: false, message: "Vous ne disposez pas de " +
+                        "droit pour effectuer cette demande."
+                });
+            const result = yield this.user.remove(input);
+            return result[0] ? succes(200, { status: true, message: result[0] })
+                : badRequest(400, {
+                    status: false, message: `Error: ${result[1]} `
+                });
+        });
+    }
+};
+__decorate([
+    (0, tsoa_1.Post)("customer/siginup"),
+    __param(0, (0, tsoa_1.Body)()),
+    __param(1, (0, tsoa_1.Res)()),
+    __param(2, (0, tsoa_1.Res)())
+], Users.prototype, "createCustomer", null);
+__decorate([
+    (0, tsoa_1.Post)("admin/users/siginup"),
+    __param(0, (0, tsoa_1.Body)()),
+    __param(1, (0, tsoa_1.Res)()),
+    __param(2, (0, tsoa_1.Res)())
+], Users.prototype, "createUsers", null);
+__decorate([
+    (0, tsoa_1.Put)("users"),
+    (0, tsoa_1.Security)("Bearer", ["admin"]),
+    __param(0, (0, tsoa_1.Body)()),
+    __param(1, (0, tsoa_1.Res)()),
+    __param(2, (0, tsoa_1.Res)()),
+    __param(3, (0, tsoa_1.Request)())
+], Users.prototype, "update", null);
+__decorate([
+    (0, tsoa_1.Put)("users/change/phonenumber"),
+    __param(0, (0, tsoa_1.Body)()),
+    __param(1, (0, tsoa_1.Res)()),
+    __param(2, (0, tsoa_1.Res)()),
+    __param(3, (0, tsoa_1.Request)())
+], Users.prototype, "changePhoneNunber", null);
+__decorate([
+    (0, tsoa_1.Post)("users/resend/otp"),
+    __param(0, (0, tsoa_1.Body)()),
+    __param(1, (0, tsoa_1.Res)()),
+    __param(2, (0, tsoa_1.Res)())
+], Users.prototype, "resendOTP", null);
+__decorate([
+    (0, tsoa_1.Post)("users/account/active"),
+    __param(0, (0, tsoa_1.Body)()),
+    __param(1, (0, tsoa_1.Res)()),
+    __param(2, (0, tsoa_1.Res)())
+], Users.prototype, "activeAcount", null);
+__decorate([
+    (0, tsoa_1.Post)("users/signin"),
+    __param(0, (0, tsoa_1.Body)()),
+    __param(1, (0, tsoa_1.Res)()),
+    __param(2, (0, tsoa_1.Res)())
+], Users.prototype, "signIn", null);
+__decorate([
+    (0, tsoa_1.Post)("users/changePassword"),
+    (0, tsoa_1.Security)("Bearer", ["admin"]),
+    __param(0, (0, tsoa_1.Body)()),
+    __param(1, (0, tsoa_1.Res)()),
+    __param(2, (0, tsoa_1.Res)()),
+    __param(3, (0, tsoa_1.Request)())
+], Users.prototype, "changePassword", null);
+__decorate([
+    (0, tsoa_1.Put)("admin/users/status"),
+    (0, tsoa_1.Security)("Bearer", ["admin"]),
+    __param(0, (0, tsoa_1.Body)()),
+    __param(1, (0, tsoa_1.Res)()),
+    __param(2, (0, tsoa_1.Res)()),
+    __param(3, (0, tsoa_1.Res)()),
+    __param(4, (0, tsoa_1.Request)())
+], Users.prototype, "acountStatus", null);
+__decorate([
+    (0, tsoa_1.Post)("users/restore/code"),
+    __param(0, (0, tsoa_1.Body)()),
+    __param(1, (0, tsoa_1.Res)()),
+    __param(2, (0, tsoa_1.Res)())
+], Users.prototype, "getrestoreCode", null);
+__decorate([
+    (0, tsoa_1.Post)("users/restore/verfycode"),
+    __param(0, (0, tsoa_1.Body)()),
+    __param(1, (0, tsoa_1.Res)()),
+    __param(2, (0, tsoa_1.Res)())
+], Users.prototype, "getToken", null);
+__decorate([
+    (0, tsoa_1.Post)("users/restore/password"),
+    (0, tsoa_1.Security)("Bearer", ["admin"]),
+    __param(0, (0, tsoa_1.Body)()),
+    __param(1, (0, tsoa_1.Res)()),
+    __param(2, (0, tsoa_1.Res)()),
+    __param(3, (0, tsoa_1.Request)())
+], Users.prototype, "restorePsswd", null);
+__decorate([
+    (0, tsoa_1.Get)("/admin/users"),
+    (0, tsoa_1.Security)("Bearer", ["admin"]),
+    __param(0, (0, tsoa_1.Query)()),
+    __param(1, (0, tsoa_1.Query)()),
+    __param(2, (0, tsoa_1.Query)()),
+    __param(3, (0, tsoa_1.Res)()),
+    __param(4, (0, tsoa_1.Res)()),
+    __param(5, (0, tsoa_1.Request)())
+], Users.prototype, "getUsers", null);
+__decorate([
+    (0, tsoa_1.Get)("/customer/users"),
+    (0, tsoa_1.Security)("Bearer", ["admin"]),
+    __param(0, (0, tsoa_1.Query)()),
+    __param(1, (0, tsoa_1.Query)()),
+    __param(2, (0, tsoa_1.Query)()),
+    __param(3, (0, tsoa_1.Res)())
+], Users.prototype, "getCustomer", null);
+__decorate([
+    (0, tsoa_1.Delete)("users"),
+    (0, tsoa_1.Security)("Bearer", ["admin"]),
+    __param(0, (0, tsoa_1.Body)()),
+    __param(1, (0, tsoa_1.Res)()),
+    __param(2, (0, tsoa_1.Res)()),
+    __param(3, (0, tsoa_1.Res)()),
+    __param(4, (0, tsoa_1.Request)())
+], Users.prototype, "Delete", null);
+Users = __decorate([
+    (0, tsoa_1.Route)("api"),
+    (0, tsoa_1.Tags)("Users")
+], Users);
 exports.Users = Users;

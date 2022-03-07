@@ -3,7 +3,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var app_1 = __importDefault(require("./app"));
-var config_1 = __importDefault(require("config"));
-var app = new app_1.default(config_1.default.get("port"));
+const app_1 = __importDefault(require("./app"));
+const PORT = process.env.PORT || 4042;
+const dbUrl = "mongodb+srv://ekival670:Ff9HdrH5h5HIqer8@cluster0.to9gj.mongodb.net/ekivalApp?retryWrites=true&w=majority";
+const app = new app_1.default(PORT, dbUrl);
 app.listen();
