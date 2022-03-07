@@ -18,9 +18,9 @@ const OtpSchema = new Schema({
   createAt: { type: Date, default: Date.now(), index: { expires: 600 } },
 });
 
-OtpSchema.pre<IOtp>("save", function (next) {
-  this.otp = randomCode(6)
-  next()
-})
+// OtpSchema.pre<IOtp>("save", function (next) {
+//   this.otp = randomCode(6)
+//   next()
+// })
 
 export const OtpModel = model("Otp", OtpSchema);

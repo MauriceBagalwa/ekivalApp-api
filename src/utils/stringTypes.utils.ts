@@ -38,10 +38,10 @@ export async function sendSMS(phone: IPhone, message: string) {
     body: message,
   };
   console.log(message)
-  // await messagebird.messages.create(params, function (err: any, response: any) {
-  //   if (err) {
-  //     return console.log(err);
-  //   }
-  // });
+  await messagebird.messages.create(params, function (err: any, response: any) {
+    if (err) {
+      return console.log(err);
+    }
+  });
 
 }
