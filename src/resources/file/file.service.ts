@@ -1,13 +1,6 @@
 
 import fs from "fs-extra";
 
-const MIME_TYPES: object = {
-      "image/jpg": "jpg",
-      "image/jpeg": "jpg",
-      "image/png": "png",
-      "application/pdf": "pdf",
-};
-
 export async function checkDirectoryOrCreate(path: string): Promise<[isCreated: boolean, error: string]> {
       try {
             await fs.ensureDir(path)

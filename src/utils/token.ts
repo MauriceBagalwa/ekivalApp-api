@@ -3,10 +3,11 @@ import jwt from 'jsonwebtoken'
 import IToken from './interfaces/token.interface'
 import { IUserType } from '../resources/users/user'
 import { resolve } from 'path/posix'
-import config from "config"
+// import config from "config"
+const secretJwt = process.env.SECRETJWT as string
 
 export const createToken = (user: Schema.Types.ObjectId, role: string): string => {
-      return jwt.sign({ _id: user, role }, config.get<string>('secretJWT'), {
+      return jwt.sign({ _id: user, role }, secretJwt, {
             expiresIn: '1d'
       })
 }

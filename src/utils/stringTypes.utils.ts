@@ -1,7 +1,7 @@
 var messagebird = require("messagebird")("bJwOZ42MJ4widd7laI1lyIqHc");
 import * as bcrypt from "bcrypt";
 import { generate } from "generate-password";
-import config from 'config'
+// import config from 'config'
 import { IPhone } from '../resources/users/user'
 export function getRandomPassword(): string {
   return generate({
@@ -33,7 +33,8 @@ export async function sendSMS(phone: IPhone, message: string) {
     recipients: [string];
     body: string;
   } = {
-    originator: config.get<string>('originator'),
+    // originator: config.get<string>('originator'),
+    originator: "Ekivall",
     recipients: [`${number}`],
     body: message,
   };
