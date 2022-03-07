@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 import IToken from './interfaces/token.interface'
 import { IUserType } from '../resources/users/user'
 import { resolve } from 'path/posix'
-// import config from "config"
+
 const secretJwt = process.env.SECRETJWT as string
 
 export const createToken = (user: Schema.Types.ObjectId, role: string): string => {
