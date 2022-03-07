@@ -92,7 +92,7 @@ export default class App {
   private initializeDbConnection(): void {
     try {
       mongoose.connect(this.dbUrl);
-      logger.info("connected to tivadb");
+      logger.info("connected to ekivaldb");
     } catch (err) {
       logger.error("Error to connect to db...");
       process.exit(1);

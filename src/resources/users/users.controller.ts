@@ -24,7 +24,7 @@ export class Users extends Controller {
 
   @Post("admin/users/siginup")
   public async createUsers(
-    @Body() item: Omit<ICustomerRequest, "userId" | "region" | "password" | "oldPassword">,
+    @Body() item: Omit<ICustomerRequest, "userId" | "region" | "otp" | "password" | "oldPassword">,
     @Res() success: TsoaResponse<200, { status: true, user: any }>,
     @Res() badRequest: TsoaResponse<400, { status: false, message: string }>,
   ): Promise<any> {

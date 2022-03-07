@@ -116,14 +116,14 @@ const models: TsoaRoute.Models = {
         "type": {"ref":"Pick_ICustomerRequest.Exclude_keyofICustomerRequest.userId-or-role-or-otp-or-oldPassword__","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Pick_ICustomerRequest.Exclude_keyofICustomerRequest.userId-or-region-or-password-or-oldPassword__": {
+    "Pick_ICustomerRequest.Exclude_keyofICustomerRequest.userId-or-region-or-otp-or-password-or-oldPassword__": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"role":{"dataType":"string"},"otp":{"dataType":"string"},"fullname":{"dataType":"string","required":true},"email":{"dataType":"string","required":true},"phone":{"ref":"IPhone","required":true}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"role":{"dataType":"string"},"fullname":{"dataType":"string","required":true},"email":{"dataType":"string","required":true},"phone":{"ref":"IPhone","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Omit_ICustomerRequest.userId-or-region-or-password-or-oldPassword_": {
+    "Omit_ICustomerRequest.userId-or-region-or-otp-or-password-or-oldPassword_": {
         "dataType": "refAlias",
-        "type": {"ref":"Pick_ICustomerRequest.Exclude_keyofICustomerRequest.userId-or-region-or-password-or-oldPassword__","validators":{}},
+        "type": {"ref":"Pick_ICustomerRequest.Exclude_keyofICustomerRequest.userId-or-region-or-otp-or-password-or-oldPassword__","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Pick_ICustomerRequest.Exclude_keyofICustomerRequest.password-or-role-or-oldPassword-or-userId-or-otp__": {
@@ -572,7 +572,7 @@ export function RegisterRoutes(app: express.Router) {
 
             function Users_createUsers(request: any, response: any, next: any) {
             const args = {
-                    item: {"in":"body","name":"item","required":true,"ref":"Omit_ICustomerRequest.userId-or-region-or-password-or-oldPassword_"},
+                    item: {"in":"body","name":"item","required":true,"ref":"Omit_ICustomerRequest.userId-or-region-or-otp-or-password-or-oldPassword_"},
                     success: {"in":"res","name":"200","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"user":{"dataType":"any","required":true},"status":{"dataType":"enum","enums":[true],"required":true}}},
                     badRequest: {"in":"res","name":"400","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"message":{"dataType":"string","required":true},"status":{"dataType":"enum","enums":[false],"required":true}}},
             };
