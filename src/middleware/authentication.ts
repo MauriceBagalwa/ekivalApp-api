@@ -1,6 +1,7 @@
 import * as express from "express";
 import * as jwt from "jsonwebtoken";
-import config from 'config'
+
+const secretJwt = process.env.SECRETJWT as string
 
 export function expressAuthentication(
     request: express.Request,
@@ -15,7 +16,7 @@ export function expressAuthentication(
                 const authHearder = request.headers["authorization"];
                 const barrerToken = authHearder.split(" ");
                 const token = barrerToken[1];
-                jwt.verify(token, config.get<string>('secretJWT') ?? "", (err, payload) => {
+                jwt.verify(token, secretJwt ?? "", (err, payload) => {
                     if (err) {
                         const message = err.name == "JsonWebTokenError" ? "Unauthorized" : err.message;
                         return reject(message);
