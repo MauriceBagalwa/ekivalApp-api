@@ -79,7 +79,6 @@ export default class App {
           message: err.message
         });
       }
-
       next();
     });
 
