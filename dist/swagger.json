@@ -358,6 +358,65 @@
 				},
 				"type": "object",
 				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"TypeUser": {
+				"enum": [
+					"system",
+					"customer"
+				],
+				"type": "string"
+			},
+			"Pick_IWalletType.Exclude_keyofIWalletType.user-or-walletId__": {
+				"properties": {
+					"designation": {
+						"type": "string"
+					},
+					"adresse": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"designation",
+					"adresse"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_IWalletType.user-or-walletId_": {
+				"$ref": "#/components/schemas/Pick_IWalletType.Exclude_keyofIWalletType.user-or-walletId__",
+				"description": "Construct a type with the properties of T except for those in type K."
+			},
+			"Pick_IWalletType.Exclude_keyofIWalletType.user__": {
+				"properties": {
+					"designation": {
+						"type": "string"
+					},
+					"walletId": {
+						"type": "string"
+					},
+					"adresse": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"designation",
+					"adresse"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_IWalletType.user_": {
+				"$ref": "#/components/schemas/Pick_IWalletType.Exclude_keyofIWalletType.user__",
+				"description": "Construct a type with the properties of T except for those in type K."
+			},
+			"Pick_IWalletType.walletId_": {
+				"properties": {
+					"walletId": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
 			}
 		},
 		"securitySchemes": {
@@ -2268,6 +2327,14 @@
 				"operationId": "ChangePassword",
 				"responses": {
 					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					},
+					"201": {
 						"description": "",
 						"content": {
 							"application/json": {
@@ -2341,11 +2408,100 @@
 				}
 			}
 		},
+		"/api/users/profile": {
+			"put": {
+				"operationId": "UploadImage",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					},
+					"201": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Users"
+				],
+				"security": [
+					{
+						"Bearer": [
+							"admin"
+						]
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"multipart/form-data": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"file": {
+										"type": "string",
+										"format": "binary"
+									}
+								},
+								"required": [
+									"file"
+								]
+							}
+						}
+					}
+				}
+			}
+		},
 		"/api/admin/users/status": {
 			"put": {
 				"operationId": "AcountStatus",
 				"responses": {
 					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					},
+					"201": {
 						"description": "",
 						"content": {
 							"application/json": {
@@ -2450,6 +2606,14 @@
 				"operationId": "GetrestoreCode",
 				"responses": {
 					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					},
+					"201": {
 						"description": "",
 						"content": {
 							"application/json": {
@@ -2522,6 +2686,14 @@
 				"operationId": "GetToken",
 				"responses": {
 					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					},
+					"201": {
 						"description": "",
 						"content": {
 							"application/json": {
@@ -2669,7 +2841,7 @@
 		},
 		"/api/admin/users": {
 			"get": {
-				"operationId": "GetUsers",
+				"operationId": "GetCustomer",
 				"responses": {
 					"200": {
 						"description": "",
@@ -2735,6 +2907,14 @@
 				"parameters": [
 					{
 						"in": "query",
+						"name": "type",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/TypeUser"
+						}
+					},
+					{
+						"in": "query",
 						"name": "status",
 						"required": false,
 						"schema": {
@@ -2765,9 +2945,9 @@
 				]
 			}
 		},
-		"/api/customer/users": {
-			"get": {
-				"operationId": "GetCustomer",
+		"/api/admin/wallets": {
+			"post": {
+				"operationId": "Create",
 				"responses": {
 					"200": {
 						"description": "",
@@ -2775,7 +2955,7 @@
 							"application/json": {
 								"schema": {
 									"properties": {
-										"users": {},
+										"wallet": {},
 										"status": {
 											"type": "boolean",
 											"enum": [
@@ -2785,7 +2965,33 @@
 										}
 									},
 									"required": [
-										"users",
+										"wallet",
+										"status"
+									],
+									"type": "object"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										},
+										"status": {
+											"type": "boolean",
+											"enum": [
+												false
+											],
+											"nullable": false
+										}
+									},
+									"required": [
+										"message",
 										"status"
 									],
 									"type": "object"
@@ -2795,7 +3001,7 @@
 					}
 				},
 				"tags": [
-					"Users"
+					"Wallet"
 				],
 				"security": [
 					{
@@ -2804,37 +3010,261 @@
 						]
 					}
 				],
-				"parameters": [
-					{
-						"in": "query",
-						"name": "status",
-						"required": false,
-						"schema": {
-							"default": true,
-							"type": "boolean"
-						}
-					},
-					{
-						"in": "query",
-						"name": "offset",
-						"required": false,
-						"schema": {
-							"default": 1,
-							"format": "double",
-							"type": "number"
-						}
-					},
-					{
-						"in": "query",
-						"name": "limit",
-						"required": false,
-						"schema": {
-							"default": 100,
-							"format": "double",
-							"type": "number"
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Omit_IWalletType.user-or-walletId_"
+							}
 						}
 					}
-				]
+				}
+			},
+			"get": {
+				"operationId": "GetWallets",
+				"responses": {
+					"200": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"wallet": {},
+										"status": {
+											"type": "boolean",
+											"enum": [
+												true
+											],
+											"nullable": false
+										}
+									},
+									"required": [
+										"wallet",
+										"status"
+									],
+									"type": "object"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										},
+										"status": {
+											"type": "boolean",
+											"enum": [
+												false
+											],
+											"nullable": false
+										}
+									},
+									"required": [
+										"message",
+										"status"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Wallet"
+				],
+				"security": [
+					{
+						"Bearer": [
+							"admin"
+						]
+					}
+				],
+				"parameters": []
+			},
+			"put": {
+				"operationId": "Update",
+				"responses": {
+					"200": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"wallet": {},
+										"status": {
+											"type": "boolean",
+											"enum": [
+												true
+											],
+											"nullable": false
+										}
+									},
+									"required": [
+										"wallet",
+										"status"
+									],
+									"type": "object"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										},
+										"status": {
+											"type": "boolean",
+											"enum": [
+												false
+											],
+											"nullable": false
+										}
+									},
+									"required": [
+										"message",
+										"status"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Wallet"
+				],
+				"security": [
+					{
+						"Bearer": [
+							"admin"
+						]
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Omit_IWalletType.user_"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "Delete",
+				"responses": {
+					"200": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {},
+										"status": {
+											"type": "boolean",
+											"enum": [
+												true
+											],
+											"nullable": false
+										}
+									},
+									"required": [
+										"message",
+										"status"
+									],
+									"type": "object"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										},
+										"status": {
+											"type": "boolean",
+											"enum": [
+												false
+											],
+											"nullable": false
+										}
+									},
+									"required": [
+										"message",
+										"status"
+									],
+									"type": "object"
+								}
+							}
+						}
+					},
+					"501": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										},
+										"status": {
+											"type": "boolean",
+											"enum": [
+												false
+											],
+											"nullable": false
+										}
+									},
+									"required": [
+										"message",
+										"status"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Wallet"
+				],
+				"security": [
+					{
+						"Bearer": [
+							"admin"
+						]
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Pick_IWalletType.walletId_"
+							}
+						}
+					}
+				}
 			}
 		}
 	},

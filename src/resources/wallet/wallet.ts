@@ -1,10 +1,10 @@
 import { Schema, model, Types } from "mongoose";
 
 export interface IWalletType {
-      walletId?: string;
       designation: string,
       adresse: string,
       user?: string
+      walletId?: string;
 }
 
 const fileSchema = new Schema({
