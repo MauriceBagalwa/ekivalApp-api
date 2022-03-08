@@ -24,6 +24,8 @@ const file_controller_1 = require("./../src/resources/file/file.controller");
 const region_controller_1 = require("./../src/resources/region/region.controller");
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 const users_controller_1 = require("./../src/resources/users/users.controller");
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+const wallet_controller_1 = require("./../src/resources/wallet/wallet.controller");
 const authentication_1 = require("./../src/middleware/authentication");
 // @ts-ignore - no great way to install types from subpackage
 const promiseAny = require('promise.any');
@@ -180,6 +182,36 @@ const models = {
         "type": { "dataType": "nestedObjectLiteral", "nestedProperties": { "password": { "dataType": "string" } }, "validators": {} },
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "TypeUser": {
+        "dataType": "refEnum",
+        "enums": ["system", "customer"],
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Pick_IWalletType.Exclude_keyofIWalletType.user-or-walletId__": {
+        "dataType": "refAlias",
+        "type": { "dataType": "nestedObjectLiteral", "nestedProperties": { "designation": { "dataType": "string", "required": true }, "adresse": { "dataType": "string", "required": true } }, "validators": {} },
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Omit_IWalletType.user-or-walletId_": {
+        "dataType": "refAlias",
+        "type": { "ref": "Pick_IWalletType.Exclude_keyofIWalletType.user-or-walletId__", "validators": {} },
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Pick_IWalletType.Exclude_keyofIWalletType.user__": {
+        "dataType": "refAlias",
+        "type": { "dataType": "nestedObjectLiteral", "nestedProperties": { "designation": { "dataType": "string", "required": true }, "walletId": { "dataType": "string" }, "adresse": { "dataType": "string", "required": true } }, "validators": {} },
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Omit_IWalletType.user_": {
+        "dataType": "refAlias",
+        "type": { "ref": "Pick_IWalletType.Exclude_keyofIWalletType.user__", "validators": {} },
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Pick_IWalletType.walletId_": {
+        "dataType": "refAlias",
+        "type": { "dataType": "nestedObjectLiteral", "nestedProperties": { "walletId": { "dataType": "string" } }, "validators": {} },
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
 const validationService = new runtime_1.ValidationService(models);
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -209,13 +241,12 @@ function RegisterRoutes(app) {
         }
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.get('/v1/api/admin/contries', authenticateMiddleware([{ "Bearer": ["admin"] }]), function Country_Contries(request, response, next) {
+    app.get('/v1/api/admin/contries', function Country_Contries(request, response, next) {
         const args = {
             status: { "default": true, "in": "query", "name": "status", "dataType": "boolean" },
             offset: { "default": 1, "in": "query", "name": "offset", "dataType": "double" },
             limit: { "default": 100, "in": "query", "name": "limit", "dataType": "double" },
             succes: { "in": "res", "name": "200", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "countries": { "dataType": "any", "required": true }, "status": { "dataType": "enum", "enums": [true], "required": true } } },
-            badRequest: { "in": "res", "name": "400", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "message": { "dataType": "string", "required": true }, "status": { "dataType": "enum", "enums": [false], "required": true } } },
         };
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         let validatedArgs = [];
@@ -293,13 +324,12 @@ function RegisterRoutes(app) {
         }
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.get('/v1/api/admin/etats', authenticateMiddleware([{ "Bearer": ["admin"] }]), function Etat_etats(request, response, next) {
+    app.get('/v1/api/admin/etats', function Etat_etats(request, response, next) {
         const args = {
             status: { "default": true, "in": "query", "name": "status", "dataType": "boolean" },
             offset: { "default": 1, "in": "query", "name": "offset", "dataType": "double" },
             limit: { "default": 100, "in": "query", "name": "limit", "dataType": "double" },
             succes: { "in": "res", "name": "200", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "etats": { "dataType": "any", "required": true }, "status": { "dataType": "enum", "enums": [true], "required": true } } },
-            badRequest: { "in": "res", "name": "400", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "message": { "dataType": "string", "required": true }, "status": { "dataType": "enum", "enums": [false], "required": true } } },
         };
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         let validatedArgs = [];
@@ -397,7 +427,7 @@ function RegisterRoutes(app) {
         }
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.get('/v1/api/admin/regions', authenticateMiddleware([{ "Bearer": ["admin"] }]), function Region_etats(request, response, next) {
+    app.get('/v1/api/admin/regions', function Region_etats(request, response, next) {
         const args = {
             status: { "default": true, "in": "query", "name": "status", "dataType": "boolean" },
             offset: { "default": 1, "in": "query", "name": "offset", "dataType": "double" },
@@ -597,7 +627,7 @@ function RegisterRoutes(app) {
     app.post('/v1/api/users/changePassword', authenticateMiddleware([{ "Bearer": ["admin"] }]), function Users_changePassword(request, response, next) {
         const args = {
             input: { "in": "body", "name": "input", "required": true, "ref": "Pick_ICustomerRequest.password-or-oldPassword_" },
-            success: { "in": "res", "name": "200", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "user": { "dataType": "any", "required": true }, "status": { "dataType": "enum", "enums": [true], "required": true } } },
+            success: { "in": "res", "name": "201", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "user": { "dataType": "any", "required": true }, "status": { "dataType": "enum", "enums": [true], "required": true } } },
             badRequest: { "in": "res", "name": "400", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "message": { "dataType": "string", "required": true }, "status": { "dataType": "enum", "enums": [false], "required": true } } },
             request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
         };
@@ -614,10 +644,30 @@ function RegisterRoutes(app) {
         }
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.put('/v1/api/users/profile', authenticateMiddleware([{ "Bearer": ["admin"] }]), upload.single('file'), function Users_uploadImage(request, response, next) {
+        const args = {
+            file: { "in": "formData", "name": "file", "required": true, "dataType": "file" },
+            badRequest: { "in": "res", "name": "400", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "message": { "dataType": "string", "required": true } } },
+            successResponse: { "in": "res", "name": "201", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "message": { "dataType": "string", "required": true } } },
+            request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
+        };
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        let validatedArgs = [];
+        try {
+            validatedArgs = getValidatedArgs(args, request, response);
+            const controller = new users_controller_1.Users();
+            const promise = controller.uploadImage.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, undefined, next);
+        }
+        catch (err) {
+            return next(err);
+        }
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     app.put('/v1/api/admin/users/status', authenticateMiddleware([{ "Bearer": ["admin"] }]), function Users_acountStatus(request, response, next) {
         const args = {
             input: { "in": "body", "name": "input", "required": true, "ref": "Pick_ICustomerRequest.userId_" },
-            success: { "in": "res", "name": "200", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "user": { "dataType": "any", "required": true }, "status": { "dataType": "enum", "enums": [true], "required": true } } },
+            success: { "in": "res", "name": "201", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "user": { "dataType": "any", "required": true }, "status": { "dataType": "enum", "enums": [true], "required": true } } },
             badRequest: { "in": "res", "name": "400", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "message": { "dataType": "string", "required": true }, "status": { "dataType": "enum", "enums": [false], "required": true } } },
             authorization: { "in": "res", "name": "501", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "message": { "dataType": "string", "required": true }, "status": { "dataType": "enum", "enums": [false], "required": true } } },
             request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
@@ -638,7 +688,7 @@ function RegisterRoutes(app) {
     app.post('/v1/api/users/restore/code', function Users_getrestoreCode(request, response, next) {
         const args = {
             input: { "in": "body", "name": "input", "required": true, "ref": "Pick_ICustomerRequest.email_" },
-            success: { "in": "res", "name": "200", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "user": { "dataType": "any", "required": true }, "status": { "dataType": "enum", "enums": [true], "required": true } } },
+            success: { "in": "res", "name": "201", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "user": { "dataType": "any", "required": true }, "status": { "dataType": "enum", "enums": [true], "required": true } } },
             badRequest: { "in": "res", "name": "400", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "message": { "dataType": "string", "required": true }, "status": { "dataType": "enum", "enums": [false], "required": true } } },
         };
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -657,7 +707,7 @@ function RegisterRoutes(app) {
     app.post('/v1/api/users/restore/verfycode', function Users_getToken(request, response, next) {
         const args = {
             input: { "in": "body", "name": "input", "required": true, "ref": "Pick_IOtp.userId-or-otp_" },
-            success: { "in": "res", "name": "200", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "token": { "dataType": "any", "required": true }, "status": { "dataType": "enum", "enums": [true], "required": true } } },
+            success: { "in": "res", "name": "201", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "token": { "dataType": "any", "required": true }, "status": { "dataType": "enum", "enums": [true], "required": true } } },
             badRequest: { "in": "res", "name": "400", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "message": { "dataType": "string", "required": true }, "status": { "dataType": "enum", "enums": [false], "required": true } } },
         };
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -693,34 +743,15 @@ function RegisterRoutes(app) {
         }
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.get('/v1/api/admin/users', authenticateMiddleware([{ "Bearer": ["admin"] }]), function Users_getUsers(request, response, next) {
+    app.get('/v1/api/admin/users', authenticateMiddleware([{ "Bearer": ["admin"] }]), function Users_getCustomer(request, response, next) {
         const args = {
+            type: { "in": "query", "name": "type", "required": true, "ref": "TypeUser" },
             status: { "default": true, "in": "query", "name": "status", "dataType": "boolean" },
             offset: { "default": 1, "in": "query", "name": "offset", "dataType": "double" },
             limit: { "default": 100, "in": "query", "name": "limit", "dataType": "double" },
             success: { "in": "res", "name": "200", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "users": { "dataType": "any", "required": true }, "status": { "dataType": "enum", "enums": [true], "required": true } } },
-            authorization: { "in": "res", "name": "501", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "message": { "dataType": "string", "required": true }, "status": { "dataType": "enum", "enums": [false], "required": true } } },
+            noAuth: { "in": "res", "name": "501", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "message": { "dataType": "string", "required": true }, "status": { "dataType": "enum", "enums": [false], "required": true } } },
             request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
-        };
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        let validatedArgs = [];
-        try {
-            validatedArgs = getValidatedArgs(args, request, response);
-            const controller = new users_controller_1.Users();
-            const promise = controller.getUsers.apply(controller, validatedArgs);
-            promiseHandler(controller, promise, response, undefined, next);
-        }
-        catch (err) {
-            return next(err);
-        }
-    });
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.get('/v1/api/customer/users', authenticateMiddleware([{ "Bearer": ["admin"] }]), function Users_getCustomer(request, response, next) {
-        const args = {
-            status: { "default": true, "in": "query", "name": "status", "dataType": "boolean" },
-            offset: { "default": 1, "in": "query", "name": "offset", "dataType": "double" },
-            limit: { "default": 100, "in": "query", "name": "limit", "dataType": "double" },
-            success: { "in": "res", "name": "200", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "users": { "dataType": "any", "required": true }, "status": { "dataType": "enum", "enums": [true], "required": true } } },
         };
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         let validatedArgs = [];
@@ -748,6 +779,85 @@ function RegisterRoutes(app) {
         try {
             validatedArgs = getValidatedArgs(args, request, response);
             const controller = new users_controller_1.Users();
+            const promise = controller.Delete.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, undefined, next);
+        }
+        catch (err) {
+            return next(err);
+        }
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.post('/v1/api/admin/wallets', authenticateMiddleware([{ "Bearer": ["admin"] }]), function Wallet_Create(request, response, next) {
+        const args = {
+            input: { "in": "body", "name": "input", "required": true, "ref": "Omit_IWalletType.user-or-walletId_" },
+            succes: { "in": "res", "name": "200", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "wallet": { "dataType": "any", "required": true }, "status": { "dataType": "enum", "enums": [true], "required": true } } },
+            badRequest: { "in": "res", "name": "400", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "message": { "dataType": "string", "required": true }, "status": { "dataType": "enum", "enums": [false], "required": true } } },
+            request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
+        };
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        let validatedArgs = [];
+        try {
+            validatedArgs = getValidatedArgs(args, request, response);
+            const controller = new wallet_controller_1.Wallet();
+            const promise = controller.Create.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, undefined, next);
+        }
+        catch (err) {
+            return next(err);
+        }
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.get('/v1/api/admin/wallets', authenticateMiddleware([{ "Bearer": ["admin"] }]), function Wallet_getWallets(request, response, next) {
+        const args = {
+            succes: { "in": "res", "name": "200", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "wallet": { "dataType": "any", "required": true }, "status": { "dataType": "enum", "enums": [true], "required": true } } },
+            request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
+        };
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        let validatedArgs = [];
+        try {
+            validatedArgs = getValidatedArgs(args, request, response);
+            const controller = new wallet_controller_1.Wallet();
+            const promise = controller.getWallets.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, undefined, next);
+        }
+        catch (err) {
+            return next(err);
+        }
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.put('/v1/api/admin/wallets', authenticateMiddleware([{ "Bearer": ["admin"] }]), function Wallet_Update(request, response, next) {
+        const args = {
+            input: { "in": "body", "name": "input", "required": true, "ref": "Omit_IWalletType.user_" },
+            succes: { "in": "res", "name": "200", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "wallet": { "dataType": "any", "required": true }, "status": { "dataType": "enum", "enums": [true], "required": true } } },
+            badRequest: { "in": "res", "name": "400", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "message": { "dataType": "string", "required": true }, "status": { "dataType": "enum", "enums": [false], "required": true } } },
+            request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
+        };
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        let validatedArgs = [];
+        try {
+            validatedArgs = getValidatedArgs(args, request, response);
+            const controller = new wallet_controller_1.Wallet();
+            const promise = controller.Update.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, undefined, next);
+        }
+        catch (err) {
+            return next(err);
+        }
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.delete('/v1/api/admin/wallets', authenticateMiddleware([{ "Bearer": ["admin"] }]), function Wallet_Delete(request, response, next) {
+        const args = {
+            input: { "in": "body", "name": "input", "required": true, "ref": "Pick_IWalletType.walletId_" },
+            succes: { "in": "res", "name": "200", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "message": { "dataType": "any", "required": true }, "status": { "dataType": "enum", "enums": [true], "required": true } } },
+            badRequest: { "in": "res", "name": "400", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "message": { "dataType": "string", "required": true }, "status": { "dataType": "enum", "enums": [false], "required": true } } },
+            noAuth: { "in": "res", "name": "501", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "message": { "dataType": "string", "required": true }, "status": { "dataType": "enum", "enums": [false], "required": true } } },
+            request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
+        };
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        let validatedArgs = [];
+        try {
+            validatedArgs = getValidatedArgs(args, request, response);
+            const controller = new wallet_controller_1.Wallet();
             const promise = controller.Delete.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, undefined, next);
         }

@@ -14,9 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.verifyToken = exports.createToken = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const secretJwt = process.env.SECRETJWT;
 const createToken = (user, role) => {
-    return jsonwebtoken_1.default.sign({ _id: user, role }, secretJwt, {
+    return jsonwebtoken_1.default.sign({ _id: user, role }, `${process.env.SECRETJWT}`, {
         expiresIn: '1d'
     });
 };

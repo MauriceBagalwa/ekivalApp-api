@@ -12,28 +12,49 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const schema_1 = require("./schema");
-const schema_2 = require("./schema");
+const wallet_1 = require("./wallet");
+const user_1 = require("../users/user");
 const logger_1 = __importDefault(require("../../utils/logger"));
-class RegionService {
+class Wallet {
+    constructor() {
+        this.wallet = wallet_1.WalletType;
+        this.user = user_1.UserModel;
+    }
     /**
-        * Find Etat by Id
-        */
-    findEtat(_id) {
+     * Registre a wallet
+     */
+    /**
+     * Find Etat by Id
+     */
+    findUser(_id) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield schema_2.EtatType.findById({ _id, status: true });
+            return yield this.user.findById({ _id, status: true });
+        });
+    }
+    findWallet(filter, index) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return [
+                yield this.wallet.findOne(filter),
+                index == 0
+                    ? "Designation ou adresse déjà utiliser"
+                    : "Aucun wallet trouver.",
+            ];
         });
     }
     /**
      * Registre a new contry
      */
-    registre(input) {
+    registre(userId, input) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log("input", input);
-                if (!(yield this.findEtat(input.etat)))
-                    return [undefined, "Aucun etat/province trouver"];
-                const item = new schema_1.RegionType(input);
+                if (!(yield this.findUser(userId)))
+                    return [undefined, "Aucun utilisateur trouver"];
+                const { designation, adresse } = input;
+                const result = yield this.findWallet({ user: userId, designation, adresse }, 0);
+                if (result[0])
+                    return [undefined, result[1]];
+                input.user = userId;
+                const item = new this.wallet(input);
                 const saveResult = yield item.save();
                 return [saveResult, ""];
             }
@@ -44,19 +65,18 @@ class RegionService {
         });
     }
     /**
-     * Get all contry
+     * Get all wallet for user x
      */
-    getAll(item) {
+    getAll(userId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { status, limit, offset } = item;
-                const contries = yield schema_1.RegionType.find({ status })
+                const wallets = yield this.wallet
+                    .find({ user: userId })
+                    .populate({ path: "user", select: "fullname" })
                     .sort({ _id: -1 })
-                    .populate({ path: "etat", select: "designation contry" })
-                    .limit(limit * 1)
-                    .skip(((offset <= 0 ? 1 : offset) - 1) * limit)
+                    .select("-user")
                     .exec();
-                return contries;
+                return wallets;
             }
             catch (err) {
                 logger_1.default.error(err.message);
@@ -67,15 +87,17 @@ class RegionService {
     /**
      * Update contry
      */
-    update(input) {
+    update(userId, input) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                if (!(yield this.findEtat(input.etat)))
-                    return [undefined, "Aucun etat trouver"];
-                const saveResult = yield schema_1.RegionType.findByIdAndUpdate({ _id: input.regionId }, input, { new: true });
+                const { walletId, designation, adresse } = input;
+                const isUsed = yield this.findWallet({ user: userId, designation, adresse, _id: { $ne: { _id: walletId } } }, 0);
+                if (isUsed[0])
+                    return [undefined, isUsed[1]];
+                const saveResult = yield this.wallet.findByIdAndUpdate({ _id: walletId }, { designation, adresse }, { new: true });
                 return saveResult
                     ? [saveResult, ""]
-                    : [undefined, "Aucune region trouver"];
+                    : [undefined, "Aucun wallet trouver"];
             }
             catch (err) {
                 logger_1.default.error(err.message);
@@ -86,11 +108,16 @@ class RegionService {
     /**
      * Remove contry
      */
-    remove(input) {
+    remove(userId, input) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const result = yield schema_1.RegionType.findByIdAndDelete({ _id: input.regionId });
-                return result ? ["Region supprimer avec succès.", ""] : [undefined, "Aucune Region trouver"];
+                const result = yield this.wallet.findByIdAndDelete({
+                    _id: input.walletId,
+                    user: userId
+                });
+                return result
+                    ? ["wallet supprimer avec succès.", ""]
+                    : [undefined, "Aucun wallet trouver"];
             }
             catch (err) {
                 logger_1.default.error(err.message);
@@ -99,4 +126,4 @@ class RegionService {
         });
     }
 }
-exports.default = RegionService;
+exports.default = Wallet;

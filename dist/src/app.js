@@ -60,6 +60,7 @@ class App {
         this.express.use((0, cors_1.default)());
         this.initializeDbConnection();
         this.initializeErrorHanlding();
+        require("dotenv").config();
         this.express.use(body_parser_1.default.urlencoded({
             extended: true,
         }));

@@ -21,101 +21,82 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Country = void 0;
+exports.Wallet = void 0;
 const tsoa_1 = require("tsoa");
+const wallet_service_1 = __importDefault(require("./wallet.service"));
 const autorization_1 = __importDefault(require("../../middleware/autorization"));
-const country_service_1 = __importDefault(require("./country.service"));
-let Country = class Country extends tsoa_1.Controller {
+let Wallet = class Wallet extends tsoa_1.Controller {
     constructor() {
         super(...arguments);
-        this.contry = new country_service_1.default();
-        this.authMessage = "Vous ne disposez pas de droit pour effectuer cette demande.";
+        this.wallet = new wallet_service_1.default();
     }
-    Create(input, succes, badRequest, noAuth, request) {
+    Create(input, succes, badRequest, request) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!autorization_1.default.admin(request))
-                return noAuth(501, {
-                    status: false, message: this.authMessage
-                });
-            const result = yield this.contry.registre(input);
-            return result[0] ? succes(200, { status: true, country: result[0] })
+            const result = yield this.wallet.registre(autorization_1.default.user(request), input);
+            return result[0] ? succes(200, { status: true, wallet: result[0] })
                 : badRequest(400, {
-                    status: false, message: ` ${result[1]} `
+                    status: false, message: `${result[1]} `
                 });
         });
     }
-    Contries(status = true, offset = 1, limit = 100, succes) {
+    getWallets(succes, request) {
         return __awaiter(this, void 0, void 0, function* () {
-            const item = {
-                status, offset, limit
-            };
-            const result = yield this.contry.getAll(item);
-            return succes(200, { status: true, countries: result });
+            const result = yield this.wallet.getAll(autorization_1.default.user(request));
+            return succes(200, { status: true, wallet: result });
         });
     }
-    Update(input, succes, badRequest, noAuth, request) {
+    Update(input, succes, badRequest, request) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!autorization_1.default.admin(request))
-                return noAuth(501, {
-                    status: false, message: this.authMessage
-                });
-            const result = yield this.contry.update(input);
-            return result[0] ? succes(200, { status: true, country: result[0] })
+            const result = yield this.wallet.update(autorization_1.default.user(request), input);
+            return result[0] ? succes(200, { status: true, wallet: result[0] })
                 : badRequest(400, {
-                    status: false, message: ` ${result[1]} `
+                    status: false, message: `${result[1]} `
                 });
         });
     }
     Delete(input, succes, badRequest, noAuth, request) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!autorization_1.default.admin(request))
-                return noAuth(501, {
-                    status: false, message: this.authMessage
-                });
-            const result = yield this.contry.remove(input);
+            const result = yield this.wallet.remove(autorization_1.default.user(request), input);
             return result[0] ? succes(200, { status: true, message: result[0] })
                 : badRequest(400, {
-                    status: false, message: ` ${result[1]} `
+                    status: false, message: `${result[1]} `
                 });
         });
     }
 };
 __decorate([
-    (0, tsoa_1.Post)("contries"),
+    (0, tsoa_1.Post)("wallets"),
+    (0, tsoa_1.Security)("Bearer", ["admin"]),
+    __param(0, (0, tsoa_1.Body)()),
+    __param(1, (0, tsoa_1.Res)()),
+    __param(2, (0, tsoa_1.Res)()),
+    __param(3, (0, tsoa_1.Request)())
+], Wallet.prototype, "Create", null);
+__decorate([
+    (0, tsoa_1.Get)("wallets"),
+    (0, tsoa_1.Security)("Bearer", ["admin"]),
+    __param(0, (0, tsoa_1.Res)()),
+    __param(1, (0, tsoa_1.Request)())
+], Wallet.prototype, "getWallets", null);
+__decorate([
+    (0, tsoa_1.Put)("wallets"),
+    (0, tsoa_1.Security)("Bearer", ["admin"]),
+    __param(0, (0, tsoa_1.Body)()),
+    __param(1, (0, tsoa_1.Res)()),
+    __param(2, (0, tsoa_1.Res)()),
+    __param(3, (0, tsoa_1.Request)())
+], Wallet.prototype, "Update", null);
+__decorate([
+    (0, tsoa_1.Delete)("wallets"),
     (0, tsoa_1.Security)("Bearer", ["admin"]),
     __param(0, (0, tsoa_1.Body)()),
     __param(1, (0, tsoa_1.Res)()),
     __param(2, (0, tsoa_1.Res)()),
     __param(3, (0, tsoa_1.Res)()),
     __param(4, (0, tsoa_1.Request)())
-], Country.prototype, "Create", null);
-__decorate([
-    (0, tsoa_1.Get)("contries"),
-    __param(0, (0, tsoa_1.Query)()),
-    __param(1, (0, tsoa_1.Query)()),
-    __param(2, (0, tsoa_1.Query)()),
-    __param(3, (0, tsoa_1.Res)())
-], Country.prototype, "Contries", null);
-__decorate([
-    (0, tsoa_1.Put)("contries"),
-    (0, tsoa_1.Security)("Bearer", ["admin"]),
-    __param(0, (0, tsoa_1.Body)()),
-    __param(1, (0, tsoa_1.Res)()),
-    __param(2, (0, tsoa_1.Res)()),
-    __param(3, (0, tsoa_1.Res)()),
-    __param(4, (0, tsoa_1.Request)())
-], Country.prototype, "Update", null);
-__decorate([
-    (0, tsoa_1.Delete)("contries"),
-    (0, tsoa_1.Security)("Bearer", ["admin"]),
-    __param(0, (0, tsoa_1.Body)()),
-    __param(1, (0, tsoa_1.Res)()),
-    __param(2, (0, tsoa_1.Res)()),
-    __param(3, (0, tsoa_1.Res)()),
-    __param(4, (0, tsoa_1.Request)())
-], Country.prototype, "Delete", null);
-Country = __decorate([
-    (0, tsoa_1.Tags)("Contries"),
+], Wallet.prototype, "Delete", null);
+Wallet = __decorate([
+    (0, tsoa_1.Tags)("Wallet"),
     (0, tsoa_1.Route)("api/admin")
-], Country);
-exports.Country = Country;
+], Wallet);
+exports.Wallet = Wallet;

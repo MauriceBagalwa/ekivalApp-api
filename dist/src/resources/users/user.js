@@ -39,7 +39,7 @@ const UserSchema = new mongoose_1.Schema({
         received: { type: Number },
         deliver: { type: Number },
     },
-    region: { type: mongoose_1.Schema.Types.ObjectId, ref: "Cities" },
+    region: { type: mongoose_1.Schema.Types.ObjectId, ref: "Regions" },
     status: { type: Boolean, default: false },
     role: { type: String, required: true, enum: [`${ROLES.ADMIN}`, `${ROLES.BASIC}`, `${ROLES.CUSTOMER}`], default: `${ROLES.CUSTOMER}` }
 }, { timestamps: true });
@@ -67,11 +67,13 @@ UserSchema.pre("save", function (next) {
 });
 UserSchema.post("save", function (doc) {
     return __awaiter(this, void 0, void 0, function* () {
-        const item = {
-            user: doc._id,
-            phone: doc.phone
-        };
-        yield otp.create("confirmation", item);
+        if (doc.role === ROLES.CUSTOMER) {
+            const item = {
+                user: doc._id,
+                phone: doc.phone
+            };
+            yield otp.create("confirmation", item);
+        }
     });
 });
 UserSchema.methods.comparePassword = function (userPassword) {

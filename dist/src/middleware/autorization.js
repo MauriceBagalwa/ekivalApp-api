@@ -1,12 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-function role(request, _role) {
+const user_1 = require("../resources/users/user");
+function admin(request) {
     const result = request;
     const { role } = result.user;
-    return _role === role;
+    return role === user_1.ROLES.ADMIN;
+}
+function allUserSystem(request) {
+    const result = request;
+    const { role } = result.user;
+    return role != user_1.ROLES.CUSTOMER;
 }
 function user(request) {
     const result = request;
-    return result.user;
+    const { _id } = result.user;
+    return _id;
 }
-exports.default = { role, user };
+exports.default = { admin, allUserSystem, user };

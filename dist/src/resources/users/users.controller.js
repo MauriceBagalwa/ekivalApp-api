@@ -25,7 +25,12 @@ exports.Users = void 0;
 const tsoa_1 = require("tsoa");
 const users_service_1 = __importDefault(require("./users.service"));
 const autorization_1 = __importDefault(require("../../middleware/autorization"));
-const user_1 = require("../users/user");
+var TypeUser;
+(function (TypeUser) {
+    TypeUser["system"] = "system";
+    TypeUser["customer"] = "customer";
+})(TypeUser || (TypeUser = {}));
+const authMessage = "Vous ne disposez pas de droit pour effectuer cette demande.";
 let Users = class Users extends tsoa_1.Controller {
     constructor() {
         super(...arguments);
@@ -83,33 +88,40 @@ let Users = class Users extends tsoa_1.Controller {
     changePassword(input, success, badRequest, request) {
         return __awaiter(this, void 0, void 0, function* () {
             let result = yield this.user.changePassword(autorization_1.default.user(request), input);
-            return result[0] ? success(200, { status: true, user: result[0] })
+            return result[0] ? success(201, { status: true, user: result[0] })
                 : badRequest(400, { status: false, message: result[1] });
+        });
+    }
+    uploadImage(file, badRequest, successResponse, request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const uploadResult = yield this.user.profile(autorization_1.default.user(request), file);
+            if (uploadResult[0])
+                return successResponse(201, { message: uploadResult[1] });
+            return badRequest(400, { message: uploadResult[1] });
         });
     }
     acountStatus(input, success, badRequest, authorization, request) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!autorization_1.default.role(request, user_1.ROLES.ADMIN))
+            if (!autorization_1.default.admin(request))
                 return authorization(501, {
-                    status: false, message: "Vous ne disposez pas de " +
-                        "droit pour effectuer cette demande."
+                    status: false, message: authMessage
                 });
             let result = yield this.user.status(input);
-            return result[0] ? success(200, { status: true, user: result[0] })
+            return result[0] ? success(201, { status: true, user: result[0] })
                 : badRequest(400, { status: false, message: result[1] });
         });
     }
     getrestoreCode(input, success, badRequest) {
         return __awaiter(this, void 0, void 0, function* () {
             let result = yield this.user.sendRestoreCode(input);
-            return result[0] ? success(200, { status: true, user: result[0] })
+            return result[0] ? success(201, { status: true, user: result[0] })
                 : badRequest(400, { status: false, message: result[1] });
         });
     }
     getToken(input, success, badRequest) {
         return __awaiter(this, void 0, void 0, function* () {
             let result = yield this.user.getTokenToRestorePsswd(input);
-            return result[0] ? success(200, { status: true, token: result[0] })
+            return result[0] ? success(201, { status: true, token: result[0] })
                 : badRequest(400, { status: false, message: result[1] });
         });
     }
@@ -120,29 +132,42 @@ let Users = class Users extends tsoa_1.Controller {
                 : badRequest(400, { status: false, message: result[1] });
         });
     }
-    getUsers(status = true, offset = 1, limit = 100, success, authorization, request) {
+    // @Get("/admin/users")
+    // @Security("Bearer", ["admin"])
+    // public async getUsers(
+    //   @Query() status: boolean = true,
+    //   @Query() offset: number = 1,
+    //   @Query() limit: number = 100,
+    //   @Res() success: TsoaResponse<200, { status: true, users: any }>,
+    //   @Res() authorization: TsoaResponse<501, { status: false; message: string }>,
+    //   @Request() request: express.Request
+    // ): Promise<any> {
+    //   if (!auth.admin(request))
+    //     return authorization(501, {
+    //       status: false, message: authMessage
+    //     })
+    //   let result = await this.user.getAll(status, offset, limit, false);
+    //   return success(200, { status: true, users: result });
+    // }
+    getCustomer(type, status = true, offset = 1, limit = 100, success, noAuth, request) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!autorization_1.default.role(request, user_1.ROLES.ADMIN))
-                return authorization(501, {
-                    status: false, message: "Vous ne disposez pas de " +
-                        "droit pour effectuer cette demande."
+            if (!autorization_1.default.allUserSystem(request))
+                return noAuth(501, {
+                    status: false, message: authMessage
                 });
-            let result = yield this.user.getAll(status, offset, limit, false);
-            return success(200, { status: true, users: result });
-        });
-    }
-    getCustomer(status = true, offset = 1, limit = 100, success) {
-        return __awaiter(this, void 0, void 0, function* () {
+            if (type == TypeUser.system && !autorization_1.default.admin(request))
+                return noAuth(501, {
+                    status: false, message: authMessage
+                });
             let result = yield this.user.getAll(status, offset, limit, true);
             return success(200, { status: true, users: result });
         });
     }
     Delete(input, succes, badRequest, noAuth, request) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!autorization_1.default.role(request, user_1.ROLES.ADMIN))
+            if (!autorization_1.default.admin(request))
                 return noAuth(501, {
-                    status: false, message: "Vous ne disposez pas de " +
-                        "droit pour effectuer cette demande."
+                    status: false, message: authMessage
                 });
             const result = yield this.user.remove(input);
             return result[0] ? succes(200, { status: true, message: result[0] })
@@ -206,6 +231,14 @@ __decorate([
     __param(3, (0, tsoa_1.Request)())
 ], Users.prototype, "changePassword", null);
 __decorate([
+    (0, tsoa_1.Put)("users/profile"),
+    (0, tsoa_1.Security)("Bearer", ["admin"]),
+    __param(0, (0, tsoa_1.UploadedFile)()),
+    __param(1, (0, tsoa_1.Res)()),
+    __param(2, (0, tsoa_1.Res)()),
+    __param(3, (0, tsoa_1.Request)())
+], Users.prototype, "uploadImage", null);
+__decorate([
     (0, tsoa_1.Put)("admin/users/status"),
     (0, tsoa_1.Security)("Bearer", ["admin"]),
     __param(0, (0, tsoa_1.Body)()),
@@ -235,22 +268,15 @@ __decorate([
     __param(3, (0, tsoa_1.Request)())
 ], Users.prototype, "restorePsswd", null);
 __decorate([
-    (0, tsoa_1.Get)("/admin/users"),
+    (0, tsoa_1.Get)("admin/users"),
     (0, tsoa_1.Security)("Bearer", ["admin"]),
     __param(0, (0, tsoa_1.Query)()),
     __param(1, (0, tsoa_1.Query)()),
     __param(2, (0, tsoa_1.Query)()),
-    __param(3, (0, tsoa_1.Res)()),
+    __param(3, (0, tsoa_1.Query)()),
     __param(4, (0, tsoa_1.Res)()),
-    __param(5, (0, tsoa_1.Request)())
-], Users.prototype, "getUsers", null);
-__decorate([
-    (0, tsoa_1.Get)("/customer/users"),
-    (0, tsoa_1.Security)("Bearer", ["admin"]),
-    __param(0, (0, tsoa_1.Query)()),
-    __param(1, (0, tsoa_1.Query)()),
-    __param(2, (0, tsoa_1.Query)()),
-    __param(3, (0, tsoa_1.Res)())
+    __param(5, (0, tsoa_1.Res)()),
+    __param(6, (0, tsoa_1.Request)())
 ], Users.prototype, "getCustomer", null);
 __decorate([
     (0, tsoa_1.Delete)("users"),

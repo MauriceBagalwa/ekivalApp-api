@@ -25,7 +25,6 @@ exports.Region = void 0;
 const tsoa_1 = require("tsoa");
 const autorization_1 = __importDefault(require("../../middleware/autorization"));
 const region_service_1 = __importDefault(require("./region.service"));
-const user_1 = require("../users/user");
 let Region = class Region extends tsoa_1.Controller {
     constructor() {
         super(...arguments);
@@ -33,7 +32,7 @@ let Region = class Region extends tsoa_1.Controller {
     }
     Create(input, succes, badRequest, noAuth, request) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!autorization_1.default.role(request, user_1.ROLES.ADMIN))
+            if (!autorization_1.default.admin(request))
                 return noAuth(501, {
                     status: false, message: "Vous ne disposez pas de " +
                         "droit pour effectuer cette demande."
@@ -41,7 +40,7 @@ let Region = class Region extends tsoa_1.Controller {
             const result = yield this.region.registre(input);
             return result[0] ? succes(200, { status: true, city: result[0] })
                 : badRequest(400, {
-                    status: false, message: `Error: ${result[1]} `
+                    status: false, message: ` ${result[1]} `
                 });
         });
     }
@@ -56,7 +55,7 @@ let Region = class Region extends tsoa_1.Controller {
     }
     Update(input, succes, badRequest, noAuth, request) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!autorization_1.default.role(request, user_1.ROLES.ADMIN))
+            if (!autorization_1.default.admin(request))
                 return noAuth(501, {
                     status: false, message: "Vous ne disposez pas de " +
                         "droit pour effectuer cette demande."
@@ -64,13 +63,13 @@ let Region = class Region extends tsoa_1.Controller {
             const result = yield this.region.update(input);
             return result[0] ? succes(200, { status: true, city: result[0] })
                 : badRequest(400, {
-                    status: false, message: `Error: ${result[1]} `
+                    status: false, message: ` ${result[1]} `
                 });
         });
     }
     Delete(input, succes, badRequest, noAuth, request) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!autorization_1.default.role(request, user_1.ROLES.ADMIN))
+            if (!autorization_1.default.admin(request))
                 return noAuth(501, {
                     status: false, message: "Vous ne disposez pas de " +
                         "droit pour effectuer cette demande."
@@ -78,7 +77,7 @@ let Region = class Region extends tsoa_1.Controller {
             const result = yield this.region.remove(input);
             return result[0] ? succes(200, { status: true, message: result[0] })
                 : badRequest(400, {
-                    status: false, message: `Error: ${result[1]} `
+                    status: false, message: ` ${result[1]} `
                 });
         });
     }
@@ -94,7 +93,6 @@ __decorate([
 ], Region.prototype, "Create", null);
 __decorate([
     (0, tsoa_1.Get)("regions"),
-    (0, tsoa_1.Security)("Bearer", ["admin"]),
     __param(0, (0, tsoa_1.Query)()),
     __param(1, (0, tsoa_1.Query)()),
     __param(2, (0, tsoa_1.Query)()),

@@ -29,7 +29,6 @@ exports.userF = joi_1.default.object({
     role: joi_1.default.string().valid("admin", "basic")
 });
 exports.customerUF = joi_1.default.object({
-    userId: joi_1.default.string().lowercase().required().trim(),
     fullname: joi_1.default.string().lowercase().required().trim(),
     phone: joi_1.default.object()
         .keys({

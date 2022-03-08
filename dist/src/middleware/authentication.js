@@ -25,17 +25,17 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.expressAuthentication = void 0;
 const jwt = __importStar(require("jsonwebtoken"));
-const secretJwt = process.env.SECRETJWT;
 function expressAuthentication(request, securityName, scopes) {
     if (securityName === "Bearer") {
         return new Promise((resolve, reject) => {
+            var _a;
             try {
                 if (!request.headers["authorization"])
                     return reject(new Error("Aucun jeton fourni"));
                 const authHearder = request.headers["authorization"];
                 const barrerToken = authHearder.split(" ");
                 const token = barrerToken[1];
-                jwt.verify(token, secretJwt !== null && secretJwt !== void 0 ? secretJwt : "", (err, payload) => {
+                jwt.verify(token, (_a = `${process.env.SECRETJWT}`) !== null && _a !== void 0 ? _a : "", (err, payload) => {
                     if (err) {
                         const message = err.name == "JsonWebTokenError" ? "Unauthorized" : err.message;
                         return reject(message);

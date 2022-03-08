@@ -24,7 +24,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Etat = void 0;
 const tsoa_1 = require("tsoa");
 const autorization_1 = __importDefault(require("../../middleware/autorization"));
-const user_1 = require("../users/user");
 const etat_service_1 = __importDefault(require("./etat.service"));
 let Etat = class Etat extends tsoa_1.Controller {
     constructor() {
@@ -33,7 +32,7 @@ let Etat = class Etat extends tsoa_1.Controller {
     }
     Create(input, succes, badRequest, noAuth, request) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!autorization_1.default.role(request, user_1.ROLES.ADMIN))
+            if (!autorization_1.default.admin(request))
                 return noAuth(501, {
                     status: false, message: "Vous ne disposez pas de " +
                         "droit pour effectuer cette demande."
@@ -41,11 +40,11 @@ let Etat = class Etat extends tsoa_1.Controller {
             const result = yield this.etat.registre(input);
             return result[0] ? succes(200, { status: true, etat: result[0] })
                 : badRequest(400, {
-                    status: false, message: `Error: ${result[1]} `
+                    status: false, message: ` ${result[1]} `
                 });
         });
     }
-    etats(status = true, offset = 1, limit = 100, succes, badRequest) {
+    etats(status = true, offset = 1, limit = 100, succes) {
         return __awaiter(this, void 0, void 0, function* () {
             const item = {
                 status, offset, limit
@@ -56,7 +55,7 @@ let Etat = class Etat extends tsoa_1.Controller {
     }
     Update(input, succes, badRequest, noAuth, request) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!autorization_1.default.role(request, user_1.ROLES.ADMIN))
+            if (!autorization_1.default.admin(request))
                 return noAuth(501, {
                     status: false, message: "Vous ne disposez pas de " +
                         "droit pour effectuer cette demande."
@@ -64,13 +63,13 @@ let Etat = class Etat extends tsoa_1.Controller {
             const result = yield this.etat.update(input);
             return result[0] ? succes(200, { status: true, etat: result[0] })
                 : badRequest(400, {
-                    status: false, message: `Error: ${result[1]} `
+                    status: false, message: ` ${result[1]} `
                 });
         });
     }
     Delete(input, succes, badRequest, noAuth, request) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!autorization_1.default.role(request, user_1.ROLES.ADMIN))
+            if (!autorization_1.default.admin(request))
                 return noAuth(501, {
                     status: false, message: "Vous ne disposez pas de " +
                         "droit pour effectuer cette demande."
@@ -78,7 +77,7 @@ let Etat = class Etat extends tsoa_1.Controller {
             const result = yield this.etat.remove(input);
             return result[0] ? succes(200, { status: true, message: result[0] })
                 : badRequest(400, {
-                    status: false, message: `Error: ${result[1]} `
+                    status: false, message: ` ${result[1]} `
                 });
         });
     }
@@ -94,12 +93,10 @@ __decorate([
 ], Etat.prototype, "Create", null);
 __decorate([
     (0, tsoa_1.Get)("etats"),
-    (0, tsoa_1.Security)("Bearer", ["admin"]),
     __param(0, (0, tsoa_1.Query)()),
     __param(1, (0, tsoa_1.Query)()),
     __param(2, (0, tsoa_1.Query)()),
-    __param(3, (0, tsoa_1.Res)()),
-    __param(4, (0, tsoa_1.Res)())
+    __param(3, (0, tsoa_1.Res)())
 ], Etat.prototype, "etats", null);
 __decorate([
     (0, tsoa_1.Put)("etats"),

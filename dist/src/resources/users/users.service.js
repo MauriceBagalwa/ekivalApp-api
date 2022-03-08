@@ -17,10 +17,11 @@ const user_validate_1 = require("./user.validate");
 const validate_resource_1 = require("../../middleware/validate.resource");
 const user_1 = require("./user");
 const stringTypes_utils_1 = require("../../utils/stringTypes.utils");
-const token_1 = __importDefault(require("../../utils/token"));
+const file_service_1 = require("../file/file.service");
 const schema_1 = require("../region/schema");
 const otp_service_1 = __importDefault(require("../otp/otp.service"));
 const logger_1 = __importDefault(require("../../utils/logger"));
+const token_1 = __importDefault(require("../../utils/token"));
 function _update(_id, item) {
     return __awaiter(this, void 0, void 0, function* () {
         console.log("valur to update:", item);
@@ -71,16 +72,18 @@ class UsersService {
                     if (!(yield this.region.findById({ _id: input.region, status: true }))) {
                         return [
                             undefined,
-                            `Error: la region selectionnern'est pas pris en charge.`,
+                            `la region selectionnern'est pas pris en charge.`,
                         ];
                     }
+                const { email, phone } = input;
+                yield this.user.findOne({ status: false, email, "phone.number": phone.number });
                 const value = new this.user(formatItem);
                 const saveUser = yield value.save();
                 return [saveUser, ""];
             }
             catch (err) {
                 logger_1.default.error(err.message);
-                return [undefined, `Error: ${err.message}`];
+                return [undefined, `${err.message}`];
             }
         });
     }
@@ -96,15 +99,30 @@ class UsersService {
                     if (!(yield this.region.findById({ _id: item.region, status: true }))) {
                         return [
                             undefined,
-                            `Error: la region selectionnern'est pas pris en charge.`,
+                            `la region selectionnern'est pas pris en charge.`,
                         ];
                     }
                 const result = yield _update(userId, formateItem);
-                return result ? [result, ``] : [undefined, `Error: Aucun utilisateur trouver.`];
+                return result ? [result, ``] : [undefined, `Aucun utilisateur trouver.`];
             }
             catch (err) {
                 logger_1.default.error(err.message);
-                return [undefined, `Error: ${err.message}`];
+                return [undefined, `${err.message}`];
+            }
+        });
+    }
+    profile(userId, file) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const urlProfile = yield (0, file_service_1.profile)(file);
+                if (!urlProfile[0])
+                    return [undefined, urlProfile[1]];
+                const result = yield _update(userId, { profile: urlProfile[1] });
+                return result ? [true, `Profile modifier.`] : [undefined, `Aucun utilisateur trouver.`];
+            }
+            catch (err) {
+                logger_1.default.error(err.message);
+                return [undefined, `${err.message}`];
             }
         });
     }
@@ -120,13 +138,13 @@ class UsersService {
                 };
                 const result = yield _update(item.userId, value);
                 if (!result)
-                    return [undefined, `Error: Aucun utilisateur trouver.`];
+                    return [undefined, `Aucun utilisateur trouver.`];
                 yield this.otp.send(result, "confirmation");
                 return [result, ``];
             }
             catch (err) {
                 logger_1.default.error(err.message);
-                return [undefined, `Error: ${err.message}`];
+                return [undefined, `${err.message}`];
             }
         });
     }
@@ -138,13 +156,13 @@ class UsersService {
             try {
                 const find = yield this.user.findOne({ _id: item.userId, status: false });
                 if (!find)
-                    return [undefined, `Error: Aucun utilisateur trouver.`];
+                    return [undefined, `Aucun utilisateur trouver.`];
                 yield this.otp.send(find, "confirmation");
                 return [find, ``];
             }
             catch (err) {
                 logger_1.default.error(err.message);
-                return [undefined, `Error: ${err.message}`];
+                return [undefined, `${err.message}`];
             }
         });
     }
@@ -164,11 +182,11 @@ class UsersService {
                         result = yield _update(item.userId, { status: true });
                 }
                 return (findUser && result) ? [result, token_1.default.createToken(result._id, result.role)]
-                    : [undefined, `Error: Code saisi est incorrect ou déjà expirer.`];
+                    : [undefined, `Code saisi est incorrect ou déjà expirer.`];
             }
             catch (err) {
                 logger_1.default.error(err.message);
-                return [undefined, `Error: ${err.message}`];
+                return [undefined, `${err.message}`];
             }
         });
     }
@@ -184,11 +202,11 @@ class UsersService {
                 if (user)
                     find = yield user.comparePassword(item.password);
                 return (user && find) ? [user, token_1.default.createToken(user._id, user.role)]
-                    : [undefined, `Error: Adresse email ou mot de passe incorrect.`];
+                    : [undefined, `Adresse email ou mot de passe incorrect.`];
             }
             catch (err) {
                 logger_1.default.error(err.message);
-                return [undefined, `Error: ${err.message}`];
+                return [undefined, `${err.message}`];
             }
         });
     }
@@ -200,15 +218,15 @@ class UsersService {
             try {
                 const user = yield this.user.findOne({ _id: userId, status: true });
                 if (!user)
-                    return [undefined, `Error: Aucun utilisateur trouver.`];
+                    return [undefined, `Aucun utilisateur trouver.`];
                 if (!(yield user.comparePassword(input.oldPassword)))
-                    return [undefined, `Error: Ancien mot de passe  incorrect.`];
+                    return [undefined, `Ancien mot de passe  incorrect.`];
                 yield user.updateOne({ password: yield (0, stringTypes_utils_1.hashPassword)(input.password) });
                 return [true, ""];
             }
             catch (err) {
                 logger_1.default.error(err.message);
-                return [undefined, `Error: ${err.message}`];
+                return [undefined, `${err.message}`];
             }
         });
     }
@@ -220,13 +238,13 @@ class UsersService {
             try {
                 const find = yield this.user.findOne({ _id: input.userId });
                 if (!find)
-                    return [undefined, `Error: Aucun utilisateur trouver.`];
+                    return [undefined, `Aucun utilisateur trouver.`];
                 const result = yield this.user.findByIdAndUpdate({ _id: input.userId }, { status: !find.status }, { new: true });
                 return [result, ""];
             }
             catch (err) {
                 logger_1.default.error(err.message);
-                return [undefined, `Error: ${err.message}`];
+                return [undefined, `${err.message}`];
             }
         });
     }
@@ -239,13 +257,13 @@ class UsersService {
                 yield (0, validate_resource_1.validateSchema)(user_validate_1.emailF, input);
                 const findUser = yield this.user.findOne({ email: input.email });
                 if (!findUser)
-                    return [undefined, `Error: Aucun utilisateur trouver.`];
+                    return [undefined, `Aucun utilisateur trouver.`];
                 yield this.otp.send(findUser, "renitialisation");
                 return [findUser, ""];
             }
             catch (err) {
                 logger_1.default.error(err.message);
-                return [undefined, `Error: ${err.message}`];
+                return [undefined, `${err.message}`];
             }
         });
     }
@@ -257,14 +275,14 @@ class UsersService {
             try {
                 const findOtp = yield this.otp.findOtp(input);
                 if (!findOtp)
-                    return [undefined, `Error: Code saisi est incorrect ou déjà expirer.`];
+                    return [undefined, `Code saisi est incorrect ou déjà expirer.`];
                 const user = yield this.user.find({ _id: input.userId });
                 yield this.otp.delete(input.userId);
                 return [token_1.default.createToken(user._id, user.role), ``];
             }
             catch (err) {
                 logger_1.default.error(err.message);
-                return [undefined, `Error: ${err.message}`];
+                return [undefined, `${err.message}`];
             }
         });
     }
@@ -276,12 +294,12 @@ class UsersService {
             try {
                 const result = yield this.user.findByIdAndUpdate({ _id: userId }, { password: yield (0, stringTypes_utils_1.hashPassword)(input.password) });
                 if (!result)
-                    return [undefined, `Error: Aucun utilisateur trouver.`];
+                    return [undefined, `Aucun utilisateur trouver.`];
                 return [result, ""];
             }
             catch (err) {
                 logger_1.default.error(err.message);
-                return [undefined, `Error: ${err.message}`];
+                return [undefined, `${err.message}`];
             }
         });
     }
