@@ -15,3 +15,18 @@ export class FilesController extends Controller {
             return badRequest(400, { message: uploadResult[1] });
       }
 }
+
+// @Route("api/admin/files")
+// @Security("Bearer", ["admin"] 
+// @Tags("Fichiers")
+// export class Profile extends Controller {
+//       @Post("image")
+//       public async uploadImage(@FormField("folder") folderName: string, @UploadedFile() file: Express.Multer.File,
+//             @Res() badRequest: TsoaResponse<400, { message: string }>,
+//             @Res() successResponse: TsoaResponse<201, { fileUrl: boolean }>): Promise<any> {
+//             const uploadResult = await fileService.uploadImage(folderName, file);
+//             if (uploadResult[0])
+//                   return successResponse(201, { fileUrl: `${uploadResult[0].replace("public/", "")}` });
+//             return badRequest(400, { message: uploadResult[1] });
+//       }
+// }

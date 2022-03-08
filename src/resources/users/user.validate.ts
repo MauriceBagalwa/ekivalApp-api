@@ -26,7 +26,6 @@ export const userF = Joi.object({
 })
 
 export const customerUF = Joi.object({
-      userId: Joi.string().lowercase().required().trim(),
       fullname: Joi.string().lowercase().required().trim(),
       phone: Joi.object()
             .keys({

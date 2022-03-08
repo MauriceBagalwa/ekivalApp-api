@@ -1,13 +1,14 @@
 import { IQuery } from "../../utils/interfaces/request.interface";
 import { RegionType, IRegionType } from "./schema";
+import { EtatType } from "./schema";
 import logger from "../../utils/logger";
 
 export default class RegionService {
       /**
-          * Find contry by Id
+          * Find Etat by Id
           */
-      private async etatFind(_id: string) {
-            return await RegionType.findById({ _id, status: true })
+      private async findEtat(_id: string) {
+            return await EtatType.findById({ _id, status: true })
       }
       /**
        * Registre a new contry
@@ -16,7 +17,8 @@ export default class RegionService {
             input: IRegionType
       ): Promise<[type: IRegionType | undefined, error: string]> {
             try {
-                  if (!await this.etatFind(input.etat)) return [undefined, "Aucune region trouver"];
+                  console.log("input", input)
+                  if (!await this.findEtat(input.etat)) return [undefined, "Aucun etat/province trouver"];
                   const item = new RegionType(input);
                   const saveResult = await item.save();
                   return [saveResult, ""];
@@ -54,7 +56,7 @@ export default class RegionService {
             input: Omit<IRegionType, "status">
       ): Promise<[type: IRegionType | undefined, error: string]> {
             try {
-                  if (!await this.etatFind(input.etat)) return [undefined, "Aucun etat trouver"];
+                  if (!await this.findEtat(input.etat)) return [undefined, "Aucun etat trouver"];
                   const saveResult = await RegionType.findByIdAndUpdate(
                         { _id: input.regionId }, input,
                         { new: true }
@@ -81,7 +83,7 @@ export default class RegionService {
                   return result ? ["Region supprimer avec succès.", ""] : [undefined, "Aucune Region trouver"];
             } catch (err: any) {
                   logger.error(err.message);
-                  return [undefined, "err.message"];
+                  return [undefined, err.message];
             }
       }
 }

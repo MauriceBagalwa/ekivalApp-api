@@ -2,10 +2,11 @@ import { customerF, customerUF, userF, signinFormat, emailF } from "./user.valid
 import { validateSchema } from "../../middleware/validate.resource";
 import { IUserType, UserModel, IPhone, ROLES } from "./user";
 import { hashPassword } from "../../utils/stringTypes.utils";
-import token from "../../utils/token";
+import { profile } from "../file/file.service";
 import { RegionType } from "../region/schema";
 import service from "../otp/otp.service";
 import logger from "../../utils/logger";
+import token from "../../utils/token";
 import { IOtp } from "../otp/otp";
 
 export interface ICustomerRequest {
@@ -80,6 +81,9 @@ export default class UsersService {
           ]
         }
 
+      const { email, phone } = input
+      await this.user.findOne({ status: false, email, "phone.number": phone.number })
+
       const value = new this.user(formatItem);
       const saveUser = await value.save();
       return [saveUser as IUserType, ""];
@@ -106,8 +110,24 @@ export default class UsersService {
             `Error: la region selectionnern'est pas pris en charge.`,
           ]
         }
+
       const result = await _update(userId, formateItem)
       return result ? [result as IUserType, ``] : [undefined, `Error: Aucun utilisateur trouver.`]
+    } catch (err: any) {
+      logger.error(err.message);
+      return [undefined, `Error: ${err.message}`];
+    }
+  }
+
+  public async profile(
+    userId: string,
+    file: Express.Multer.File
+  ): Promise<[type: boolean | undefined, error: string]> {
+    try {
+      const urlProfile = await profile(file)
+      if (!urlProfile[0]) return [undefined, urlProfile[1]];
+      const result = await _update(userId, { profile: urlProfile[1] })
+      return result ? [true, `Profile modifier.`] : [undefined, `Error: Aucun utilisateur trouver.`]
     } catch (err: any) {
       logger.error(err.message);
       return [undefined, `Error: ${err.message}`];
@@ -120,7 +140,7 @@ export default class UsersService {
    */
   public async changePhone(
     item: Pick<ICustomerRequest, "userId" | "phone">
-  ): Promise<any> {
+  ): Promise<[type: IUserType | undefined, error: string]> {
     try {
       let value: object = {
         phone: item.phone

@@ -1,15 +1,22 @@
 import * as express from "express"
 import { ROLES } from '../resources/users/user'
 
-function role(request: express.Request, _role: ROLES) {
+function admin(request: express.Request) {
       const result: any = request
       const { role } = result.user
-      return _role === role
+      return role === ROLES.ADMIN
+}
+
+function allUserSystem(request: express.Request) {
+      const result: any = request
+      const { role } = result.user
+      return role != ROLES.CUSTOMER
 }
 
 function user(request: express.Request) {
       const result: any = request
-      return result.user
+      const { _id } = result.user
+      return _id
 }
 
-export default { role, user }
+export default { admin, allUserSystem, user }

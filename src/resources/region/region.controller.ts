@@ -3,7 +3,6 @@ import { IQuery } from "../../utils/interfaces/request.interface";
 import auth from "../../middleware/autorization";
 import { IRegionType } from "./schema";
 import Service from "./region.service";
-import { ROLES } from '../users/user'
 import * as express from 'express'
 
 @Tags("Region")
@@ -20,7 +19,7 @@ export class Region extends Controller {
             @Res() noAuth: TsoaResponse<501, { status: false; message: string }>,
             @Request() request: express.Request
       ): Promise<any> {
-            if (!auth.role(request, ROLES.ADMIN))
+            if (!auth.admin(request))
                   return noAuth(501, {
                         status: false, message: "Vous ne disposez pas de " +
                               "droit pour effectuer cette demande."
@@ -54,7 +53,7 @@ export class Region extends Controller {
             @Res() noAuth: TsoaResponse<501, { status: false; message: string }>,
             @Request() request: express.Request
       ): Promise<any> {
-            if (!auth.role(request, ROLES.ADMIN))
+            if (!auth.admin(request))
                   return noAuth(501, {
                         status: false, message: "Vous ne disposez pas de " +
                               "droit pour effectuer cette demande."
@@ -74,7 +73,7 @@ export class Region extends Controller {
             @Res() noAuth: TsoaResponse<501, { status: false; message: string }>,
             @Request() request: express.Request
       ): Promise<any> {
-            if (!auth.role(request, ROLES.ADMIN))
+            if (!auth.admin(request))
                   return noAuth(501, {
                         status: false, message: "Vous ne disposez pas de " +
                               "droit pour effectuer cette demande."

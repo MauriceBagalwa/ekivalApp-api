@@ -14,6 +14,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import { ValidateError } from "tsoa";
 
+
 export default class App {
   public express: Application;
   public port: number;
@@ -35,7 +36,7 @@ export default class App {
     this.express.use(cors());
     this.initializeDbConnection();
     this.initializeErrorHanlding();
-
+    require("dotenv").config();
     this.express.use(
       bodyParser.urlencoded({
         extended: true,

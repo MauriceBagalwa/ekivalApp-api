@@ -51,7 +51,7 @@ const UserSchema = new Schema({
             received: { type: Number },
             deliver: { type: Number },
       },
-      region: { type: Schema.Types.ObjectId, ref: "Cities" },
+      region: { type: Schema.Types.ObjectId, ref: "Regions" },
       status: { type: Boolean, default: false },
       role: { type: String, required: true, enum: [`${ROLES.ADMIN}`, `${ROLES.BASIC}`, `${ROLES.CUSTOMER}`], default: `${ROLES.CUSTOMER}` }
 }, { timestamps: true });
@@ -78,11 +78,13 @@ UserSchema.pre<IUserType>("save", async function (next) {
 });
 
 UserSchema.post<IUserType>("save", async function (doc) {
-      const item: IOtp = {
-            user: doc._id,
-            phone: doc.phone
+      if (doc.role === ROLES.CUSTOMER) {
+            const item: IOtp = {
+                  user: doc._id,
+                  phone: doc.phone
+            }
+            await otp.create("confirmation", item)
       }
-      await otp.create("confirmation", item)
 });
 
 UserSchema.methods.comparePassword = async function (userPassword: string): Promise<boolean> {

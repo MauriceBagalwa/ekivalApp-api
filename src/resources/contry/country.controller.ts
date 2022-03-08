@@ -11,6 +11,7 @@ import * as express from "express"
 export class Country extends Controller {
 
       private contry = new Service()
+      private authMessage = "Vous ne disposez pas de droit pour effectuer cette demande."
 
       @Post("contries")
       @Security("Bearer", ["admin"])
@@ -20,10 +21,9 @@ export class Country extends Controller {
             @Res() noAuth: TsoaResponse<501, { status: false; message: string }>,
             @Request() request: express.Request
       ): Promise<any> {
-            if (!auth.role(request, ROLES.ADMIN))
+            if (!auth.admin(request))
                   return noAuth(501, {
-                        status: false, message: "Vous ne disposez pas de " +
-                              "droit pour effectuer cette demande."
+                        status: false, message: this.authMessage
                   })
             const result = await this.contry.registre(input)
             return result[0] ? succes(200, { status: true, country: result[0] })
@@ -55,10 +55,9 @@ export class Country extends Controller {
             @Res() noAuth: TsoaResponse<501, { status: false; message: string }>,
             @Request() request: express.Request
       ): Promise<any> {
-            if (!auth.role(request, ROLES.ADMIN))
+            if (!auth.admin(request))
                   return noAuth(501, {
-                        status: false, message: "Vous ne disposez pas de " +
-                              "droit pour effectuer cette demande."
+                        status: false, message: this.authMessage
                   })
             const result = await this.contry.update(input)
             return result[0] ? succes(200, { status: true, country: result[0] })
@@ -75,10 +74,9 @@ export class Country extends Controller {
             @Res() noAuth: TsoaResponse<501, { status: false; message: string }>,
             @Request() request: express.Request
       ): Promise<any> {
-            if (!auth.role(request, ROLES.ADMIN))
+            if (!auth.admin(request))
                   return noAuth(501, {
-                        status: false, message: "Vous ne disposez pas de " +
-                              "droit pour effectuer cette demande."
+                        status: false, message: this.authMessage
                   })
             const result = await this.contry.remove(input)
             return result[0] ? succes(200, { status: true, message: result[0] })
