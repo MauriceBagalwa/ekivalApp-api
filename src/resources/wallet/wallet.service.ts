@@ -34,7 +34,7 @@ export default class Wallet {
             input: IWalletType
       ): Promise<[type: IWalletType | undefined, error: string]> {
             try {
-                  if (!(await this.findUser(input.user as string)))
+                  if (!(await this.findUser(userId)))
                         return [undefined, "Aucun utilisateur trouver"];
                   const { designation, adresse } = input;
                   const result = await this.findWallet(

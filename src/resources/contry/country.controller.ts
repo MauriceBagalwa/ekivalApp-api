@@ -28,17 +28,15 @@ export class Country extends Controller {
             const result = await this.contry.registre(input)
             return result[0] ? succes(200, { status: true, country: result[0] })
                   : badRequest(400, {
-                        status: false, message: `Error: ${result[1]} `
+                        status: false, message: ` ${result[1]} `
                   });
       }
 
       @Get("contries")
-      @Security("Bearer", ["admin"])
       public async Contries(@Query() status: boolean = true,
             @Query() offset: number = 1,
             @Query() limit: number = 100,
             @Res() succes: TsoaResponse<200, { status: true; countries: any }>,
-            @Res() badRequest: TsoaResponse<400, { status: false; message: string }>
       ): Promise<any> {
             const item: IQuery = {
                   status, offset, limit
@@ -62,7 +60,7 @@ export class Country extends Controller {
             const result = await this.contry.update(input)
             return result[0] ? succes(200, { status: true, country: result[0] })
                   : badRequest(400, {
-                        status: false, message: `Error: ${result[1]} `
+                        status: false, message: ` ${result[1]} `
                   });
       }
 
@@ -81,7 +79,7 @@ export class Country extends Controller {
             const result = await this.contry.remove(input)
             return result[0] ? succes(200, { status: true, message: result[0] })
                   : badRequest(400, {
-                        status: false, message: `Error: ${result[1]} `
+                        status: false, message: ` ${result[1]} `
                   });
       }
 

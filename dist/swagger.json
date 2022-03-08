@@ -566,44 +566,12 @@
 								}
 							}
 						}
-					},
-					"400": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"message": {
-											"type": "string"
-										},
-										"status": {
-											"type": "boolean",
-											"enum": [
-												false
-											],
-											"nullable": false
-										}
-									},
-									"required": [
-										"message",
-										"status"
-									],
-									"type": "object"
-								}
-							}
-						}
 					}
 				},
 				"tags": [
 					"Contries"
 				],
-				"security": [
-					{
-						"Bearer": [
-							"admin"
-						]
-					}
-				],
+				"security": [],
 				"parameters": [
 					{
 						"in": "query",
@@ -970,44 +938,12 @@
 								}
 							}
 						}
-					},
-					"400": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"message": {
-											"type": "string"
-										},
-										"status": {
-											"type": "boolean",
-											"enum": [
-												false
-											],
-											"nullable": false
-										}
-									},
-									"required": [
-										"message",
-										"status"
-									],
-									"type": "object"
-								}
-							}
-						}
 					}
 				},
 				"tags": [
 					"Etats"
 				],
-				"security": [
-					{
-						"Bearer": [
-							"admin"
-						]
-					}
-				],
+				"security": [],
 				"parameters": [
 					{
 						"in": "query",
@@ -1458,13 +1394,7 @@
 				"tags": [
 					"Region"
 				],
-				"security": [
-					{
-						"Bearer": [
-							"admin"
-						]
-					}
-				],
+				"security": [],
 				"parameters": [
 					{
 						"in": "query",
@@ -3042,32 +2972,6 @@
 									},
 									"required": [
 										"wallet",
-										"status"
-									],
-									"type": "object"
-								}
-							}
-						}
-					},
-					"400": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"message": {
-											"type": "string"
-										},
-										"status": {
-											"type": "boolean",
-											"enum": [
-												false
-											],
-											"nullable": false
-										}
-									},
-									"required": [
-										"message",
 										"status"
 									],
 									"type": "object"

@@ -77,7 +77,7 @@ export default class UsersService {
         if (!await this.region.findById({ _id: input.region, status: true })) {
           return [
             undefined,
-            `Error: la region selectionnern'est pas pris en charge.`,
+            `la region selectionnern'est pas pris en charge.`,
           ]
         }
 
@@ -89,7 +89,7 @@ export default class UsersService {
       return [saveUser as IUserType, ""];
     } catch (err: any) {
       logger.error(err.message);
-      return [undefined, `Error: ${err.message}`];
+      return [undefined, `${err.message}`];
     }
   }
 
@@ -107,15 +107,15 @@ export default class UsersService {
         if (!await this.region.findById({ _id: item.region, status: true })) {
           return [
             undefined,
-            `Error: la region selectionnern'est pas pris en charge.`,
+            `la region selectionnern'est pas pris en charge.`,
           ]
         }
 
       const result = await _update(userId, formateItem)
-      return result ? [result as IUserType, ``] : [undefined, `Error: Aucun utilisateur trouver.`]
+      return result ? [result as IUserType, ``] : [undefined, `Aucun utilisateur trouver.`]
     } catch (err: any) {
       logger.error(err.message);
-      return [undefined, `Error: ${err.message}`];
+      return [undefined, `${err.message}`];
     }
   }
 
@@ -127,10 +127,10 @@ export default class UsersService {
       const urlProfile = await profile(file)
       if (!urlProfile[0]) return [undefined, urlProfile[1]];
       const result = await _update(userId, { profile: urlProfile[1] })
-      return result ? [true, `Profile modifier.`] : [undefined, `Error: Aucun utilisateur trouver.`]
+      return result ? [true, `Profile modifier.`] : [undefined, `Aucun utilisateur trouver.`]
     } catch (err: any) {
       logger.error(err.message);
-      return [undefined, `Error: ${err.message}`];
+      return [undefined, `${err.message}`];
     }
   }
 
@@ -146,12 +146,12 @@ export default class UsersService {
         phone: item.phone
       }
       const result = await _update(item.userId, value)
-      if (!result) return [undefined, `Error: Aucun utilisateur trouver.`];
+      if (!result) return [undefined, `Aucun utilisateur trouver.`];
       await this.otp.send(result, "confirmation");
       return [result, ``];
     } catch (err: any) {
       logger.error(err.message);
-      return [undefined, `Error: ${err.message}`];
+      return [undefined, `${err.message}`];
     }
   }
 
@@ -163,12 +163,12 @@ export default class UsersService {
   ): Promise<[type: IUserType | undefined, error: string]> {
     try {
       const find = await this.user.findOne({ _id: item.userId, status: false });
-      if (!find) return [undefined, `Error: Aucun utilisateur trouver.`];
+      if (!find) return [undefined, `Aucun utilisateur trouver.`];
       await this.otp.send(find, "confirmation");
       return [find, ``];
     } catch (err: any) {
       logger.error(err.message);
-      return [undefined, `Error: ${err.message}`];
+      return [undefined, `${err.message}`];
     }
   }
 
@@ -189,10 +189,10 @@ export default class UsersService {
           result = await _update(item.userId, { status: true })
       }
       return (findUser && result) ? [result as IUserType, token.createToken(result._id, result.role)]
-        : [undefined, `Error: Code saisi est incorrect ou déjà expirer.`]
+        : [undefined, `Code saisi est incorrect ou déjà expirer.`]
     } catch (err: any) {
       logger.error(err.message);
-      return [undefined, `Error: ${err.message}`];
+      return [undefined, `${err.message}`];
     }
   }
 
@@ -210,10 +210,10 @@ export default class UsersService {
         find = await user.comparePassword(item.password as string);
 
       return (user && find) ? [user as IUserType, token.createToken(user._id, user.role)]
-        : [undefined, `Error: Adresse email ou mot de passe incorrect.`];
+        : [undefined, `Adresse email ou mot de passe incorrect.`];
     } catch (err: any) {
       logger.error(err.message);
-      return [undefined, `Error: ${err.message}`];
+      return [undefined, `${err.message}`];
     }
   }
 
@@ -226,14 +226,14 @@ export default class UsersService {
   ): Promise<[type: Boolean | undefined, err: string]> {
     try {
       const user = await this.user.findOne({ _id: userId, status: true });
-      if (!user) return [undefined, `Error: Aucun utilisateur trouver.`];
+      if (!user) return [undefined, `Aucun utilisateur trouver.`];
       if (!await user.comparePassword(input.oldPassword as string))
-        return [undefined, `Error: Ancien mot de passe  incorrect.`];
+        return [undefined, `Ancien mot de passe  incorrect.`];
       await user.updateOne({ password: await hashPassword(input.password as string) });
       return [true, ""];
     } catch (err: any) {
       logger.error(err.message);
-      return [undefined, `Error: ${err.message}`];
+      return [undefined, `${err.message}`];
     }
   }
 
@@ -246,7 +246,7 @@ export default class UsersService {
     try {
       const find = await this.user.findOne({ _id: input.userId })
       if (!find)
-        return [undefined, `Error: Aucun utilisateur trouver.`];
+        return [undefined, `Aucun utilisateur trouver.`];
       const result = await this.user.findByIdAndUpdate(
         { _id: input.userId },
         { status: !find.status },
@@ -255,7 +255,7 @@ export default class UsersService {
       return [result as IUserType, ""];
     } catch (err: any) {
       logger.error(err.message);
-      return [undefined, `Error: ${err.message}`];
+      return [undefined, `${err.message}`];
     }
   }
 
@@ -268,12 +268,12 @@ export default class UsersService {
     try {
       await validateSchema(emailF, input)
       const findUser = await this.user.findOne({ email: input.email });
-      if (!findUser) return [undefined, `Error: Aucun utilisateur trouver.`];
+      if (!findUser) return [undefined, `Aucun utilisateur trouver.`];
       await this.otp.send(findUser, "renitialisation");
       return [findUser as IUserType, ""];
     } catch (err: any) {
       logger.error(err.message);
-      return [undefined, `Error: ${err.message}`];
+      return [undefined, `${err.message}`];
     }
   }
 
@@ -286,13 +286,13 @@ export default class UsersService {
     try {
       const findOtp = await this.otp.findOtp(input);
       if (!findOtp)
-        return [undefined, `Error: Code saisi est incorrect ou déjà expirer.`];
+        return [undefined, `Code saisi est incorrect ou déjà expirer.`];
       const user: any = await this.user.find({ _id: input.userId })
       await this.otp.delete(input.userId as string);
       return [token.createToken(user._id, user.role), ``];
     } catch (err: any) {
       logger.error(err.message);
-      return [undefined, `Error: ${err.message}`];
+      return [undefined, `${err.message}`];
     }
   }
 
@@ -308,11 +308,11 @@ export default class UsersService {
         { _id: userId },
         { password: await hashPassword(input.password as string) }
       );
-      if (!result) return [undefined, `Error: Aucun utilisateur trouver.`];
+      if (!result) return [undefined, `Aucun utilisateur trouver.`];
       return [result as IUserType, ""];
     } catch (err: any) {
       logger.error(err.message);
-      return [undefined, `Error: ${err.message}`];
+      return [undefined, `${err.message}`];
     }
   }
 

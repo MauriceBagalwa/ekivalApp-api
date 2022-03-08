@@ -9,7 +9,7 @@ export interface IWalletType {
 
 const fileSchema = new Schema({
       designation: { type: String, required: true },
-      adresse: { type: String, required: true },
+      adresse: { type: String, required: true, unique: true },
       user: { type: Schema.Types.ObjectId, ref: "User" },
 });
 

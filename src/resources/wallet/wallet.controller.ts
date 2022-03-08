@@ -12,7 +12,7 @@ export class Wallet extends Controller {
 
       @Post("wallets")
       @Security("Bearer", ["admin"])
-      public async Create(@Body() input: Omit<IWalletType, "user"|"walletId">,
+      public async Create(@Body() input: Omit<IWalletType, "user" | "walletId">,
             @Res() succes: TsoaResponse<200, { status: true; wallet: any }>,
             @Res() badRequest: TsoaResponse<400, { status: false; message: string }>,
             @Request() request: express.Request
@@ -20,7 +20,7 @@ export class Wallet extends Controller {
             const result = await this.wallet.registre(auth.user(request), input)
             return result[0] ? succes(200, { status: true, wallet: result[0] })
                   : badRequest(400, {
-                        status: false, message: `Error: ${result[1]} `
+                        status: false, message: `${result[1]} `
                   });
       }
 
@@ -28,14 +28,10 @@ export class Wallet extends Controller {
       @Security("Bearer", ["admin"])
       public async getWallets(
             @Res() succes: TsoaResponse<200, { status: true; wallet: any }>,
-            @Res() badRequest: TsoaResponse<400, { status: false; message: string }>,
             @Request() request: express.Request
       ): Promise<any> {
             const result = await this.wallet.getAll(auth.user(request))
-            return result[0] ? succes(200, { status: true, wallet: result[0] })
-                  : badRequest(400, {
-                        status: false, message: `Error: ${result[1]} `
-                  });
+            return succes(200, { status: true, wallet: result })
       }
 
       @Put("wallets")
@@ -49,7 +45,7 @@ export class Wallet extends Controller {
             const result = await this.wallet.update(auth.user(request), input)
             return result[0] ? succes(200, { status: true, wallet: result[0] })
                   : badRequest(400, {
-                        status: false, message: `Error: ${result[1]} `
+                        status: false, message: `${result[1]} `
                   });
       }
 
@@ -64,7 +60,7 @@ export class Wallet extends Controller {
             const result = await this.wallet.remove(auth.user(request), input)
             return result[0] ? succes(200, { status: true, message: result[0] })
                   : badRequest(400, {
-                        status: false, message: `Error: ${result[1]} `
+                        status: false, message: `${result[1]} `
                   });
       }
 }

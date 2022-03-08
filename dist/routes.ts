@@ -242,7 +242,6 @@ export function RegisterRoutes(app: express.Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.get('/v1/api/admin/contries',
-            authenticateMiddleware([{"Bearer":["admin"]}]),
 
             function Country_Contries(request: any, response: any, next: any) {
             const args = {
@@ -250,7 +249,6 @@ export function RegisterRoutes(app: express.Router) {
                     offset: {"default":1,"in":"query","name":"offset","dataType":"double"},
                     limit: {"default":100,"in":"query","name":"limit","dataType":"double"},
                     succes: {"in":"res","name":"200","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"countries":{"dataType":"any","required":true},"status":{"dataType":"enum","enums":[true],"required":true}}},
-                    badRequest: {"in":"res","name":"400","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"message":{"dataType":"string","required":true},"status":{"dataType":"enum","enums":[false],"required":true}}},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -354,7 +352,6 @@ export function RegisterRoutes(app: express.Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.get('/v1/api/admin/etats',
-            authenticateMiddleware([{"Bearer":["admin"]}]),
 
             function Etat_etats(request: any, response: any, next: any) {
             const args = {
@@ -362,7 +359,6 @@ export function RegisterRoutes(app: express.Router) {
                     offset: {"default":1,"in":"query","name":"offset","dataType":"double"},
                     limit: {"default":100,"in":"query","name":"limit","dataType":"double"},
                     succes: {"in":"res","name":"200","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"etats":{"dataType":"any","required":true},"status":{"dataType":"enum","enums":[true],"required":true}}},
-                    badRequest: {"in":"res","name":"400","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"message":{"dataType":"string","required":true},"status":{"dataType":"enum","enums":[false],"required":true}}},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -493,7 +489,6 @@ export function RegisterRoutes(app: express.Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.get('/v1/api/admin/regions',
-            authenticateMiddleware([{"Bearer":["admin"]}]),
 
             function Region_etats(request: any, response: any, next: any) {
             const args = {
@@ -1004,7 +999,6 @@ export function RegisterRoutes(app: express.Router) {
             function Wallet_getWallets(request: any, response: any, next: any) {
             const args = {
                     succes: {"in":"res","name":"200","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"wallet":{"dataType":"any","required":true},"status":{"dataType":"enum","enums":[true],"required":true}}},
-                    badRequest: {"in":"res","name":"400","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"message":{"dataType":"string","required":true},"status":{"dataType":"enum","enums":[false],"required":true}}},
                     request: {"in":"request","name":"request","required":true,"dataType":"object"},
             };
 

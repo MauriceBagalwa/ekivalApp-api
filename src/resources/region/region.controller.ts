@@ -27,12 +27,11 @@ export class Region extends Controller {
             const result = await this.region.registre(input)
             return result[0] ? succes(200, { status: true, city: result[0] })
                   : badRequest(400, {
-                        status: false, message: `Error: ${result[1]} `
+                        status: false, message: ` ${result[1]} `
                   });
       }
 
       @Get("regions")
-      @Security("Bearer", ["admin"])
       public async etats(@Query() status: boolean = true,
             @Query() offset: number = 1,
             @Query() limit: number = 100,
@@ -61,7 +60,7 @@ export class Region extends Controller {
             const result = await this.region.update(input)
             return result[0] ? succes(200, { status: true, city: result[0] })
                   : badRequest(400, {
-                        status: false, message: `Error: ${result[1]} `
+                        status: false, message: ` ${result[1]} `
                   });
       }
 
@@ -81,7 +80,7 @@ export class Region extends Controller {
             const result = await this.region.remove(input)
             return result[0] ? succes(200, { status: true, message: result[0] })
                   : badRequest(400, {
-                        status: false, message: `Error: ${result[1]} `
+                        status: false, message: ` ${result[1]} `
                   });
       }
 }
