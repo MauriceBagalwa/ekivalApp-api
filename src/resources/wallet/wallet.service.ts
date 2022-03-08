@@ -61,6 +61,7 @@ export default class Wallet {
             try {
                   const wallets = await this.wallet
                         .find({ user: userId })
+                        .populate({ path: "user", select: "fullname" })
                         .sort({ _id: -1 })
                         .select("-user")
                         .exec();
