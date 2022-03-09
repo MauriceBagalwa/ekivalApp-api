@@ -61,7 +61,6 @@ function profile(file) {
             if (isCreated) {
                 let extArray = file.mimetype.split("/");
                 let ext = extArray[extArray.length - 1];
-                console.log("Name:", file.mimetype);
                 if (ext != "png" && ext != "jpg" && ext != "png" && ext != 'jpeg')
                     return [false, "Format du fichier non pris en charge."];
                 const destinationPath = `${folder}/ekvl${Date.now()}.${ext}`;
