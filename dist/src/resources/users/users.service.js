@@ -34,6 +34,7 @@ class UsersService {
         this.user = user_1.UserModel;
         this.region = schema_1.RegionType;
         this.otp = new otp_service_1.default();
+        // lolo@gamil.com::iA5l5LohyU
     }
     /**
      * Get all users()
@@ -50,6 +51,7 @@ class UsersService {
                     .populate(index ? { path: "region", select: "designation" } : null)
                     .sort({ _id: -1 })
                     .limit(limit * 1)
+                    .select('-password')
                     .skip(((offset <= 0 ? 1 : offset) - 1) * limit)
                     .exec();
                 return users;

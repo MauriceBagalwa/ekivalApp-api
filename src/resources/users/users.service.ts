@@ -54,6 +54,7 @@ export default class UsersService {
         .populate(index ? { path: "region", select: "designation" } : null)
         .sort({ _id: -1 })
         .limit(limit * 1)
+        .select('-password')
         .skip(((offset <= 0 ? 1 : offset) - 1) * limit)
         .exec();
       return users;
@@ -332,4 +333,5 @@ export default class UsersService {
       return [undefined, "err.message"];
     }
   }
+  // lolo@gamil.com::iA5l5LohyU
 }

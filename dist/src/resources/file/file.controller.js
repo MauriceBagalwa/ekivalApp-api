@@ -44,6 +44,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.FilesController = void 0;
 const tsoa_1 = require("tsoa");
 const fileService = __importStar(require("./file.service"));
+// @Route("api/admin/files")
+// @Security("Bearer", ["admin"] auth admin
 let FilesController = class FilesController extends tsoa_1.Controller {
     uploadImage(folderName, file, badRequest, successResponse) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -62,14 +64,11 @@ __decorate([
     __param(3, (0, tsoa_1.Res)())
 ], FilesController.prototype, "uploadImage", null);
 FilesController = __decorate([
-    (0, tsoa_1.Route)("api/admin/files")
-    // @Security("Bearer", ["admin"] auth admin
-    ,
     (0, tsoa_1.Tags)("Fichiers")
 ], FilesController);
 exports.FilesController = FilesController;
 // @Route("api/admin/files")
-// @Security("Bearer", ["admin"] 
+// @Security("Bearer", ["admin"]
 // @Tags("Fichiers")
 // export class Profile extends Controller {
 //       @Post("image")

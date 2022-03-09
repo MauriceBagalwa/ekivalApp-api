@@ -1,7 +1,7 @@
 import { Post, Route, FormField, Res, TsoaResponse, Security, Tags, UploadedFile, Controller } from "tsoa";
 import * as fileService from "./file.service";
 
-@Route("api/admin/files")
+// @Route("api/admin/files")
 // @Security("Bearer", ["admin"] auth admin
 @Tags("Fichiers")
 export class FilesController extends Controller {
@@ -17,7 +17,7 @@ export class FilesController extends Controller {
 }
 
 // @Route("api/admin/files")
-// @Security("Bearer", ["admin"] 
+// @Security("Bearer", ["admin"]
 // @Tags("Fichiers")
 // export class Profile extends Controller {
 //       @Post("image")

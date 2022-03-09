@@ -7,8 +7,6 @@ import { Country } from './../src/resources/contry/country.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { Etat } from './../src/resources/etats/etat.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { FilesController } from './../src/resources/file/file.controller';
-// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { Region } from './../src/resources/region/region.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { Users } from './../src/resources/users/users.controller';
@@ -161,16 +159,6 @@ const models: TsoaRoute.Models = {
     "Pick_ICustomerRequest.password-or-oldPassword_": {
         "dataType": "refAlias",
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"oldPassword":{"dataType":"string"},"password":{"dataType":"string"}},"validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Pick_ICustomerRequest.email_": {
-        "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"email":{"dataType":"string","required":true}},"validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Pick_ICustomerRequest.password_": {
-        "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"password":{"dataType":"string"}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "TypeUser": {
@@ -433,33 +421,6 @@ export function RegisterRoutes(app: express.Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/v1/api/admin/files/image',
-            upload.single('file'),
-
-            function FilesController_uploadImage(request: any, response: any, next: any) {
-            const args = {
-                    folderName: {"in":"formData","name":"folder","required":true,"dataType":"string"},
-                    file: {"in":"formData","name":"file","required":true,"dataType":"file"},
-                    badRequest: {"in":"res","name":"400","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"message":{"dataType":"string","required":true}}},
-                    successResponse: {"in":"res","name":"201","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"fileUrl":{"dataType":"string","required":true}}},
-            };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request, response);
-
-                const controller = new FilesController();
-
-
-              const promise = controller.uploadImage.apply(controller, validatedArgs as any);
-              promiseHandler(controller, promise, response, undefined, next);
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.post('/v1/api/admin/regions',
             authenticateMiddleware([{"Bearer":["admin"]}]),
 
@@ -570,7 +531,7 @@ export function RegisterRoutes(app: express.Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/v1/api/customer/siginup',
+        app.post('/v1/api/users/siginup',
 
             function Users_createCustomer(request: any, response: any, next: any) {
             const args = {
@@ -647,7 +608,7 @@ export function RegisterRoutes(app: express.Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.put('/v1/api/users/change/phonenumber',
+        app.put('/v1/api/users/acount/change-phonenumber',
 
             function Users_changePhoneNunber(request: any, response: any, next: any) {
             const args = {
@@ -673,7 +634,7 @@ export function RegisterRoutes(app: express.Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/v1/api/users/resend/otp',
+        app.post('/v1/api/users/acount/resend-otp',
 
             function Users_resendOTP(request: any, response: any, next: any) {
             const args = {
@@ -748,7 +709,7 @@ export function RegisterRoutes(app: express.Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/v1/api/users/changePassword',
+        app.post('/v1/api/users/change-password',
             authenticateMiddleware([{"Bearer":["admin"]}]),
 
             function Users_changePassword(request: any, response: any, next: any) {
@@ -803,7 +764,7 @@ export function RegisterRoutes(app: express.Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.put('/v1/api/admin/users/status',
+        app.put('/v1/api/admin/users/change-status',
             authenticateMiddleware([{"Bearer":["admin"]}]),
 
             function Users_acountStatus(request: any, response: any, next: any) {
@@ -825,83 +786,6 @@ export function RegisterRoutes(app: express.Router) {
 
 
               const promise = controller.acountStatus.apply(controller, validatedArgs as any);
-              promiseHandler(controller, promise, response, undefined, next);
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/v1/api/users/restore/code',
-
-            function Users_getrestoreCode(request: any, response: any, next: any) {
-            const args = {
-                    input: {"in":"body","name":"input","required":true,"ref":"Pick_ICustomerRequest.email_"},
-                    success: {"in":"res","name":"201","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"user":{"dataType":"any","required":true},"status":{"dataType":"enum","enums":[true],"required":true}}},
-                    badRequest: {"in":"res","name":"400","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"message":{"dataType":"string","required":true},"status":{"dataType":"enum","enums":[false],"required":true}}},
-            };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request, response);
-
-                const controller = new Users();
-
-
-              const promise = controller.getrestoreCode.apply(controller, validatedArgs as any);
-              promiseHandler(controller, promise, response, undefined, next);
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/v1/api/users/restore/verfycode',
-
-            function Users_getToken(request: any, response: any, next: any) {
-            const args = {
-                    input: {"in":"body","name":"input","required":true,"ref":"Pick_IOtp.userId-or-otp_"},
-                    success: {"in":"res","name":"201","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"token":{"dataType":"any","required":true},"status":{"dataType":"enum","enums":[true],"required":true}}},
-                    badRequest: {"in":"res","name":"400","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"message":{"dataType":"string","required":true},"status":{"dataType":"enum","enums":[false],"required":true}}},
-            };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request, response);
-
-                const controller = new Users();
-
-
-              const promise = controller.getToken.apply(controller, validatedArgs as any);
-              promiseHandler(controller, promise, response, undefined, next);
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/v1/api/users/restore/password',
-            authenticateMiddleware([{"Bearer":["admin"]}]),
-
-            function Users_restorePsswd(request: any, response: any, next: any) {
-            const args = {
-                    input: {"in":"body","name":"input","required":true,"ref":"Pick_ICustomerRequest.password_"},
-                    success: {"in":"res","name":"200","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"token":{"dataType":"any","required":true},"status":{"dataType":"enum","enums":[true],"required":true}}},
-                    badRequest: {"in":"res","name":"400","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"message":{"dataType":"string","required":true},"status":{"dataType":"enum","enums":[false],"required":true}}},
-                    request: {"in":"request","name":"request","required":true,"dataType":"object"},
-            };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request, response);
-
-                const controller = new Users();
-
-
-              const promise = controller.restorePsswd.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);

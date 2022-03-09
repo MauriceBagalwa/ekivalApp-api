@@ -111,6 +111,7 @@ let Users = class Users extends tsoa_1.Controller {
                 : badRequest(400, { status: false, message: result[1] });
         });
     }
+    // @Post("users/restore/code")
     getrestoreCode(input, success, badRequest) {
         return __awaiter(this, void 0, void 0, function* () {
             let result = yield this.user.sendRestoreCode(input);
@@ -118,6 +119,7 @@ let Users = class Users extends tsoa_1.Controller {
                 : badRequest(400, { status: false, message: result[1] });
         });
     }
+    // @Post("users/restore/verfycode")
     getToken(input, success, badRequest) {
         return __awaiter(this, void 0, void 0, function* () {
             let result = yield this.user.getTokenToRestorePsswd(input);
@@ -125,6 +127,7 @@ let Users = class Users extends tsoa_1.Controller {
                 : badRequest(400, { status: false, message: result[1] });
         });
     }
+    // @Post("users/restore/password")
     restorePsswd(input, success, badRequest, request) {
         return __awaiter(this, void 0, void 0, function* () {
             let result = yield this.user.RestorePassword(autorization_1.default.user(request), input);
@@ -132,23 +135,6 @@ let Users = class Users extends tsoa_1.Controller {
                 : badRequest(400, { status: false, message: result[1] });
         });
     }
-    // @Get("/admin/users")
-    // @Security("Bearer", ["admin"])
-    // public async getUsers(
-    //   @Query() status: boolean = true,
-    //   @Query() offset: number = 1,
-    //   @Query() limit: number = 100,
-    //   @Res() success: TsoaResponse<200, { status: true, users: any }>,
-    //   @Res() authorization: TsoaResponse<501, { status: false; message: string }>,
-    //   @Request() request: express.Request
-    // ): Promise<any> {
-    //   if (!auth.admin(request))
-    //     return authorization(501, {
-    //       status: false, message: authMessage
-    //     })
-    //   let result = await this.user.getAll(status, offset, limit, false);
-    //   return success(200, { status: true, users: result });
-    // }
     getCustomer(type, status = true, offset = 1, limit = 100, success, noAuth, request) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!autorization_1.default.allUserSystem(request))
@@ -159,7 +145,7 @@ let Users = class Users extends tsoa_1.Controller {
                 return noAuth(501, {
                     status: false, message: authMessage
                 });
-            let result = yield this.user.getAll(status, offset, limit, true);
+            let result = yield this.user.getAll(status, offset, limit, (type == TypeUser.customer));
             return success(200, { status: true, users: result });
         });
     }
@@ -178,7 +164,7 @@ let Users = class Users extends tsoa_1.Controller {
     }
 };
 __decorate([
-    (0, tsoa_1.Post)("customer/siginup"),
+    (0, tsoa_1.Post)("users/siginup"),
     __param(0, (0, tsoa_1.Body)()),
     __param(1, (0, tsoa_1.Res)()),
     __param(2, (0, tsoa_1.Res)())
@@ -198,14 +184,14 @@ __decorate([
     __param(3, (0, tsoa_1.Request)())
 ], Users.prototype, "update", null);
 __decorate([
-    (0, tsoa_1.Put)("users/change/phonenumber"),
+    (0, tsoa_1.Put)("users/acount/change-phonenumber"),
     __param(0, (0, tsoa_1.Body)()),
     __param(1, (0, tsoa_1.Res)()),
     __param(2, (0, tsoa_1.Res)()),
     __param(3, (0, tsoa_1.Request)())
 ], Users.prototype, "changePhoneNunber", null);
 __decorate([
-    (0, tsoa_1.Post)("users/resend/otp"),
+    (0, tsoa_1.Post)("users/acount/resend-otp"),
     __param(0, (0, tsoa_1.Body)()),
     __param(1, (0, tsoa_1.Res)()),
     __param(2, (0, tsoa_1.Res)())
@@ -223,7 +209,7 @@ __decorate([
     __param(2, (0, tsoa_1.Res)())
 ], Users.prototype, "signIn", null);
 __decorate([
-    (0, tsoa_1.Post)("users/changePassword"),
+    (0, tsoa_1.Post)("users/change-password"),
     (0, tsoa_1.Security)("Bearer", ["admin"]),
     __param(0, (0, tsoa_1.Body)()),
     __param(1, (0, tsoa_1.Res)()),
@@ -239,7 +225,7 @@ __decorate([
     __param(3, (0, tsoa_1.Request)())
 ], Users.prototype, "uploadImage", null);
 __decorate([
-    (0, tsoa_1.Put)("admin/users/status"),
+    (0, tsoa_1.Put)("admin/users/change-status"),
     (0, tsoa_1.Security)("Bearer", ["admin"]),
     __param(0, (0, tsoa_1.Body)()),
     __param(1, (0, tsoa_1.Res)()),
@@ -248,19 +234,16 @@ __decorate([
     __param(4, (0, tsoa_1.Request)())
 ], Users.prototype, "acountStatus", null);
 __decorate([
-    (0, tsoa_1.Post)("users/restore/code"),
     __param(0, (0, tsoa_1.Body)()),
     __param(1, (0, tsoa_1.Res)()),
     __param(2, (0, tsoa_1.Res)())
 ], Users.prototype, "getrestoreCode", null);
 __decorate([
-    (0, tsoa_1.Post)("users/restore/verfycode"),
     __param(0, (0, tsoa_1.Body)()),
     __param(1, (0, tsoa_1.Res)()),
     __param(2, (0, tsoa_1.Res)())
 ], Users.prototype, "getToken", null);
 __decorate([
-    (0, tsoa_1.Post)("users/restore/password"),
     (0, tsoa_1.Security)("Bearer", ["admin"]),
     __param(0, (0, tsoa_1.Body)()),
     __param(1, (0, tsoa_1.Res)()),

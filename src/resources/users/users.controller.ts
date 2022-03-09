@@ -17,7 +17,7 @@ export class Users extends Controller {
 
   private user = new Service();
 
-  @Post("customer/siginup")
+  @Post("users/siginup")
   public async createCustomer(
     @Body() item: Omit<ICustomerRequest, "userId" | "role" | "otp" | "oldPassword">,
     @Res() success: TsoaResponse<200, { status: true, user: any }>,
@@ -52,7 +52,7 @@ export class Users extends Controller {
       : badRequest(400, { status: false, message: result[1] })
   }
 
-  @Put("users/change/phonenumber")
+  @Put("users/acount/change-phonenumber")
   public async changePhoneNunber(
     @Body() item: Pick<ICustomerRequest, "userId" | "phone">,
     @Res() success: TsoaResponse<200, { status: true, user: any }>,
@@ -64,7 +64,7 @@ export class Users extends Controller {
       : badRequest(400, { status: false, message: result[1] })
   }
 
-  @Post("users/resend/otp")
+  @Post("users/acount/resend-otp")
   public async resendOTP(
     @Body() item: Pick<ICustomerRequest, "userId">,
     @Res() success: TsoaResponse<200, { status: true, user: any }>,
@@ -97,7 +97,7 @@ export class Users extends Controller {
       : badRequest(400, { status: false, message: result[1] })
   }
 
-  @Post("users/changePassword")
+  @Post("users/change-password")
   @Security("Bearer", ["admin"])
   public async changePassword(
     @Body() input: Pick<ICustomerRequest, "password" | "oldPassword">,
@@ -122,7 +122,7 @@ export class Users extends Controller {
     return badRequest(400, { message: uploadResult[1] });
   }
 
-  @Put("admin/users/status")
+  @Put("admin/users/change-status")
   @Security("Bearer", ["admin"])
   public async acountStatus(
     @Body() input: Pick<ICustomerRequest, "userId">,
@@ -140,7 +140,7 @@ export class Users extends Controller {
       : badRequest(400, { status: false, message: result[1] })
   }
 
-  @Post("users/restore/code")
+  // @Post("users/restore/code")
   public async getrestoreCode(
     @Body() input: Pick<ICustomerRequest, "email">,
     @Res() success: TsoaResponse<201, { status: true, user: any }>,
@@ -151,7 +151,7 @@ export class Users extends Controller {
       : badRequest(400, { status: false, message: result[1] })
   }
 
-  @Post("users/restore/verfycode")
+  // @Post("users/restore/verfycode")
   public async getToken(
     @Body() input: Pick<IOtp, "userId" | "otp">,
     @Res() success: TsoaResponse<201, { status: true, token: any }>,
@@ -163,7 +163,7 @@ export class Users extends Controller {
   }
 
 
-  @Post("users/restore/password")
+  // @Post("users/restore/password")
   @Security("Bearer", ["admin"])
   public async restorePsswd(
     @Body() input: Pick<ICustomerRequest, "password">,
@@ -175,24 +175,6 @@ export class Users extends Controller {
     return result[0] ? success(200, { status: true, token: result[0] })
       : badRequest(400, { status: false, message: result[1] })
   }
-
-  // @Get("/admin/users")
-  // @Security("Bearer", ["admin"])
-  // public async getUsers(
-  //   @Query() status: boolean = true,
-  //   @Query() offset: number = 1,
-  //   @Query() limit: number = 100,
-  //   @Res() success: TsoaResponse<200, { status: true, users: any }>,
-  //   @Res() authorization: TsoaResponse<501, { status: false; message: string }>,
-  //   @Request() request: express.Request
-  // ): Promise<any> {
-  //   if (!auth.admin(request))
-  //     return authorization(501, {
-  //       status: false, message: authMessage
-  //     })
-  //   let result = await this.user.getAll(status, offset, limit, false);
-  //   return success(200, { status: true, users: result });
-  // }
 
   @Get("admin/users")
   @Security("Bearer", ["admin"])
@@ -216,7 +198,7 @@ export class Users extends Controller {
         status: false, message: authMessage
       })
 
-    let result = await this.user.getAll(status, offset, limit, true);
+    let result = await this.user.getAll(status, offset, limit, (type == TypeUser.customer));
     return success(200, { status: true, users: result });
   }
 
