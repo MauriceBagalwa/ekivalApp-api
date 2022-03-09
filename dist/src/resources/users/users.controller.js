@@ -43,8 +43,13 @@ let Users = class Users extends tsoa_1.Controller {
                 : badRequest(400, { status: false, message: result[1] });
         });
     }
-    createUsers(item, success, badRequest) {
+    createUsers(item, success, badRequest, noAuth, request) {
         return __awaiter(this, void 0, void 0, function* () {
+            if (!autorization_1.default.admin(request))
+                return noAuth(501, {
+                    status: false, message: "Vous ne disposez pas de " +
+                        "droit pour effectuer cette demande."
+                });
             let result = yield this.user.registre(item);
             return result[0] ? success(200, { status: true, user: result[0] })
                 : badRequest(400, { status: false, message: result[1] });
@@ -171,9 +176,12 @@ __decorate([
 ], Users.prototype, "createCustomer", null);
 __decorate([
     (0, tsoa_1.Post)("admin/users/siginup"),
+    (0, tsoa_1.Security)("Bearer", ["admin"]),
     __param(0, (0, tsoa_1.Body)()),
     __param(1, (0, tsoa_1.Res)()),
-    __param(2, (0, tsoa_1.Res)())
+    __param(2, (0, tsoa_1.Res)()),
+    __param(3, (0, tsoa_1.Res)()),
+    __param(4, (0, tsoa_1.Request)())
 ], Users.prototype, "createUsers", null);
 __decorate([
     (0, tsoa_1.Put)("users"),

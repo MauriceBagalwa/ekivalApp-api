@@ -1657,12 +1657,44 @@
 								}
 							}
 						}
+					},
+					"501": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										},
+										"status": {
+											"type": "boolean",
+											"enum": [
+												false
+											],
+											"nullable": false
+										}
+									},
+									"required": [
+										"message",
+										"status"
+									],
+									"type": "object"
+								}
+							}
+						}
 					}
 				},
 				"tags": [
 					"Users"
 				],
-				"security": [],
+				"security": [
+					{
+						"Bearer": [
+							"admin"
+						]
+					}
+				],
 				"parameters": [],
 				"requestBody": {
 					"required": true,

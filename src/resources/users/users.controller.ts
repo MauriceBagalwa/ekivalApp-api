@@ -29,11 +29,19 @@ export class Users extends Controller {
   }
 
   @Post("admin/users/siginup")
+  @Security("Bearer", ["admin"])
   public async createUsers(
     @Body() item: Omit<ICustomerRequest, "userId" | "region" | "otp" | "password" | "oldPassword">,
     @Res() success: TsoaResponse<200, { status: true, user: any }>,
     @Res() badRequest: TsoaResponse<400, { status: false, message: string }>,
+    @Res() noAuth: TsoaResponse<501, { status: false; message: string }>,
+    @Request() request: express.Request
   ): Promise<any> {
+    if (!auth.admin(request))
+      return noAuth(501, {
+        status: false, message: "Vous ne disposez pas de " +
+          "droit pour effectuer cette demande."
+      })
     let result = await this.user.registre(item)
     return result[0] ? success(200, { status: true, user: result[0] })
       : badRequest(400, { status: false, message: result[1] })

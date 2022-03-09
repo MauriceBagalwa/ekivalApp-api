@@ -557,12 +557,15 @@ export function RegisterRoutes(app: express.Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.post('/v1/api/admin/users/siginup',
+            authenticateMiddleware([{"Bearer":["admin"]}]),
 
             function Users_createUsers(request: any, response: any, next: any) {
             const args = {
                     item: {"in":"body","name":"item","required":true,"ref":"Omit_ICustomerRequest.userId-or-region-or-otp-or-password-or-oldPassword_"},
                     success: {"in":"res","name":"200","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"user":{"dataType":"any","required":true},"status":{"dataType":"enum","enums":[true],"required":true}}},
                     badRequest: {"in":"res","name":"400","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"message":{"dataType":"string","required":true},"status":{"dataType":"enum","enums":[false],"required":true}}},
+                    noAuth: {"in":"res","name":"501","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"message":{"dataType":"string","required":true},"status":{"dataType":"enum","enums":[false],"required":true}}},
+                    request: {"in":"request","name":"request","required":true,"dataType":"object"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
