@@ -39,6 +39,7 @@ export async function uploadImage(folderName: string, file: Express.Multer.File)
             return ["", "Une erreur est survenue lors du deplacement du fichier"];
       }
 }
+
 export async function profile(file: Express.Multer.File): Promise<[fileUrl: boolean, error: string]> {
       const folder = `public/uploads/images`;
       try {
@@ -48,9 +49,9 @@ export async function profile(file: Express.Multer.File): Promise<[fileUrl: bool
                   let extArray = file.mimetype.split("/");
                   let ext = extArray[extArray.length - 1];
 
-                  console.log("Name:", file.mimetype)
                   if (ext != "png" && ext != "jpg" && ext != "png" && ext != 'jpeg')
                         return [false, "Format du fichier non pris en charge."];
+                        
                   const destinationPath = `${folder}/ekvl${Date.now()}.${ext}`;
                   await fs.outputFile(destinationPath, file.buffer);
                   console.log("designation:", destinationPath)
