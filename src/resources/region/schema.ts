@@ -28,10 +28,10 @@ export interface IBase {
 }
 
 export interface ICountryType extends IBase {
-      countryId?: string,
       index: string,
       countrycode: string,
       flag?: string
+      countryId?: string,
 }
 
 export interface IEtatType extends IBase {

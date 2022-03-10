@@ -206,12 +206,16 @@
 					},
 					"password": {
 						"type": "string"
+					},
+					"profile": {
+						"type": "string"
 					}
 				},
 				"required": [
 					"fullname",
 					"email",
-					"phone"
+					"phone",
+					"profile"
 				],
 				"type": "object",
 				"description": "From T, pick a set of properties whose keys are in the union K"
@@ -233,12 +237,16 @@
 					},
 					"phone": {
 						"$ref": "#/components/schemas/IPhone"
+					},
+					"profile": {
+						"type": "string"
 					}
 				},
 				"required": [
 					"fullname",
 					"email",
-					"phone"
+					"phone",
+					"profile"
 				],
 				"type": "object",
 				"description": "From T, pick a set of properties whose keys are in the union K"
@@ -260,12 +268,16 @@
 					},
 					"region": {
 						"type": "string"
+					},
+					"profile": {
+						"type": "string"
 					}
 				},
 				"required": [
 					"fullname",
 					"email",
-					"phone"
+					"phone",
+					"profile"
 				],
 				"type": "object",
 				"description": "From T, pick a set of properties whose keys are in the union K"
@@ -768,13 +780,7 @@
 				"tags": [
 					"Contries"
 				],
-				"security": [
-					{
-						"Bearer": [
-							"admin"
-						]
-					}
-				],
+				"security": [],
 				"parameters": [],
 				"requestBody": {
 					"required": true,
@@ -1154,6 +1160,85 @@
 						"application/json": {
 							"schema": {
 								"$ref": "#/components/schemas/Pick_IEtatType.etatId_"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/admin/files/image": {
+			"post": {
+				"operationId": "UploadImage",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					},
+					"201": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"fileUrl": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"fileUrl"
+									],
+									"type": "object"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Fichiers"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"multipart/form-data": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"folder": {
+										"type": "string"
+									},
+									"file": {
+										"type": "string",
+										"format": "binary"
+									}
+								},
+								"required": [
+									"folder",
+									"file"
+								]
 							}
 						}
 					}

@@ -16,13 +16,13 @@ export interface ICustomerRequest {
   phone: IPhone;
   region?: string;
   password?: string;
+  profile: string;
   oldPassword?: string;
   role?: string;
   otp?: string;
 }
 
 export async function _update(_id: any, item: any) {
-  console.log("valur to update:", item)
   return await UserModel.findByIdAndUpdate(
     { _id },
     item,

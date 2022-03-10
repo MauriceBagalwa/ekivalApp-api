@@ -65,17 +65,13 @@ export class Country extends Controller {
       }
 
       @Delete("contries")
-      @Security("Bearer", ["admin"])
+      // @Security("Bearer", ["admin"])
       public async Delete(@Body() input: Pick<ICountryType, "countryId">,
             @Res() succes: TsoaResponse<200, { status: true; message: any }>,
             @Res() badRequest: TsoaResponse<400, { status: false; message: string }>,
             @Res() noAuth: TsoaResponse<501, { status: false; message: string }>,
             @Request() request: express.Request
       ): Promise<any> {
-            if (!auth.admin(request))
-                  return noAuth(501, {
-                        status: false, message: this.authMessage
-                  })
             const result = await this.contry.remove(input)
             return result[0] ? succes(200, { status: true, message: result[0] })
                   : badRequest(400, {

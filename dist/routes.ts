@@ -7,6 +7,8 @@ import { Country } from './../src/resources/contry/country.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { Etat } from './../src/resources/etats/etat.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { FilesController } from './../src/resources/file/file.controller';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { Region } from './../src/resources/region/region.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { Users } from './../src/resources/users/users.controller';
@@ -108,7 +110,7 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Pick_ICustomerRequest.Exclude_keyofICustomerRequest.userId-or-role-or-otp-or-oldPassword__": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"fullname":{"dataType":"string","required":true},"email":{"dataType":"string","required":true},"phone":{"ref":"IPhone","required":true},"region":{"dataType":"string"},"password":{"dataType":"string"}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"fullname":{"dataType":"string","required":true},"email":{"dataType":"string","required":true},"phone":{"ref":"IPhone","required":true},"region":{"dataType":"string"},"password":{"dataType":"string"},"profile":{"dataType":"string","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Omit_ICustomerRequest.userId-or-role-or-otp-or-oldPassword_": {
@@ -118,7 +120,7 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Pick_ICustomerRequest.Exclude_keyofICustomerRequest.userId-or-region-or-otp-or-password-or-oldPassword__": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"role":{"dataType":"string"},"fullname":{"dataType":"string","required":true},"email":{"dataType":"string","required":true},"phone":{"ref":"IPhone","required":true}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"role":{"dataType":"string"},"fullname":{"dataType":"string","required":true},"email":{"dataType":"string","required":true},"phone":{"ref":"IPhone","required":true},"profile":{"dataType":"string","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Omit_ICustomerRequest.userId-or-region-or-otp-or-password-or-oldPassword_": {
@@ -128,7 +130,7 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Pick_ICustomerRequest.Exclude_keyofICustomerRequest.password-or-role-or-oldPassword-or-userId-or-otp__": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"fullname":{"dataType":"string","required":true},"email":{"dataType":"string","required":true},"phone":{"ref":"IPhone","required":true},"region":{"dataType":"string"}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"fullname":{"dataType":"string","required":true},"email":{"dataType":"string","required":true},"phone":{"ref":"IPhone","required":true},"region":{"dataType":"string"},"profile":{"dataType":"string","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Omit_ICustomerRequest.password-or-role-or-oldPassword-or-userId-or-otp_": {
@@ -284,7 +286,6 @@ export function RegisterRoutes(app: express.Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.delete('/v1/api/admin/contries',
-            authenticateMiddleware([{"Bearer":["admin"]}]),
 
             function Country_Delete(request: any, response: any, next: any) {
             const args = {
@@ -415,6 +416,33 @@ export function RegisterRoutes(app: express.Router) {
 
 
               const promise = controller.Delete.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/v1/api/admin/files/image',
+            upload.single('file'),
+
+            function FilesController_uploadImage(request: any, response: any, next: any) {
+            const args = {
+                    folderName: {"in":"formData","name":"folder","required":true,"dataType":"string"},
+                    file: {"in":"formData","name":"file","required":true,"dataType":"file"},
+                    badRequest: {"in":"res","name":"400","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"message":{"dataType":"string","required":true}}},
+                    successResponse: {"in":"res","name":"201","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"fileUrl":{"dataType":"string","required":true}}},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new FilesController();
+
+
+              const promise = controller.uploadImage.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);

@@ -29,6 +29,7 @@ export interface IUserType extends Document {
       phone: IPhone;
       username?: string;
       password?: string;
+      profile: string;
       dashbord: IDashbord;
       status?: boolean;
       role: ROLES;
@@ -44,7 +45,7 @@ const UserSchema = new Schema({
             number: { type: String, required: true, unique: true },
       },
       password: { type: String },
-      profile: { type: String, default: "images/default-profile.png" },
+      profile: { type: String, unique: true },
       username: { type: String },
       dashbord: {
             send: { type: Number },

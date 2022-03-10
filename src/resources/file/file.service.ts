@@ -19,19 +19,11 @@ export async function uploadImage(folderName: string, file: Express.Multer.File)
             const [isCreated, error] = await checkDirectoryOrCreate(folder);
             if (isCreated) {
 
-                  const destinationPath = `${folder}/ekival-${Date.now()}`;
-                  await fs.outputFile(destinationPath, file.buffer);
                   let extArray = file.mimetype.split("/");
                   let ext = extArray[extArray.length - 1];
-
-                  if (ext != "png" && ext != "jpg" && ext != "png")
-                        return ["", "Format du fichier non pris en charge."];
-
-                  // let extension = extArray[extArray.length - 1];
-
-                  // console.log(file)
-                  // console.log("Extention:", extension)
-                  return [destinationPath, ""];
+                  const destinationPath = `${folder}/ekvl${Date.now()}.${ext}`;
+                  await fs.outputFile(destinationPath, file.buffer);
+                  return [`${destinationPath.replace(`public/`, "")}`, ""];
             }
             return ["", error];
       } catch (error) {
@@ -51,7 +43,7 @@ export async function profile(file: Express.Multer.File): Promise<[fileUrl: bool
 
                   if (ext != "png" && ext != "jpg" && ext != "png" && ext != 'jpeg')
                         return [false, "Format du fichier non pris en charge."];
-                        
+
                   const destinationPath = `${folder}/ekvl${Date.now()}.${ext}`;
                   await fs.outputFile(destinationPath, file.buffer);
                   console.log("designation:", destinationPath)
