@@ -16,6 +16,7 @@ exports.customerF = joi_1.default.object({
     email: joi_1.default.string().email().lowercase().required(),
     region: joi_1.default.string(),
     password: joi_1.default.string().required(),
+    profile: joi_1.default.string().required()
 });
 exports.userF = joi_1.default.object({
     fullname: joi_1.default.string().lowercase().required().trim(),
@@ -25,8 +26,9 @@ exports.userF = joi_1.default.object({
         number: joi_1.default.number().required(),
     })
         .required(),
-    email: joi_1.default.string().email().lowercase().required(),
-    role: joi_1.default.string().valid("admin", "basic")
+    email: joi_1.default.string().email().lowercase(),
+    role: joi_1.default.string().valid("admin", "basic"),
+    profile: joi_1.default.string()
 });
 exports.customerUF = joi_1.default.object({
     fullname: joi_1.default.string().lowercase().required().trim(),
@@ -37,7 +39,8 @@ exports.customerUF = joi_1.default.object({
     })
         .required(),
     email: joi_1.default.string().email().lowercase().required(),
-    region: joi_1.default.string().lowercase()
+    region: joi_1.default.string().lowercase(),
+    profile: joi_1.default.string()
 });
 exports.signinFormat = joi_1.default.object({
     email: joi_1.default.string().email().lowercase().required(),

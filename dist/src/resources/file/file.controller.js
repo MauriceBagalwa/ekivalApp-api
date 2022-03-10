@@ -44,8 +44,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.FilesController = void 0;
 const tsoa_1 = require("tsoa");
 const fileService = __importStar(require("./file.service"));
-// @Route("api/admin/files")
-// @Security("Bearer", ["admin"] auth admin
 let FilesController = class FilesController extends tsoa_1.Controller {
     uploadImage(folderName, file, badRequest, successResponse) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -64,20 +62,7 @@ __decorate([
     __param(3, (0, tsoa_1.Res)())
 ], FilesController.prototype, "uploadImage", null);
 FilesController = __decorate([
+    (0, tsoa_1.Route)("api/admin/files"),
     (0, tsoa_1.Tags)("Fichiers")
 ], FilesController);
 exports.FilesController = FilesController;
-// @Route("api/admin/files")
-// @Security("Bearer", ["admin"]
-// @Tags("Fichiers")
-// export class Profile extends Controller {
-//       @Post("image")
-//       public async uploadImage(@FormField("folder") folderName: string, @UploadedFile() file: Express.Multer.File,
-//             @Res() badRequest: TsoaResponse<400, { message: string }>,
-//             @Res() successResponse: TsoaResponse<201, { fileUrl: boolean }>): Promise<any> {
-//             const uploadResult = await fileService.uploadImage(folderName, file);
-//             if (uploadResult[0])
-//                   return successResponse(201, { fileUrl: `${uploadResult[0].replace("public/", "")}` });
-//             return badRequest(400, { message: uploadResult[1] });
-//       }
-// }

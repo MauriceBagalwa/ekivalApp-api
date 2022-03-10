@@ -68,10 +68,6 @@ let Country = class Country extends tsoa_1.Controller {
     }
     Delete(input, succes, badRequest, noAuth, request) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!autorization_1.default.admin(request))
-                return noAuth(501, {
-                    status: false, message: this.authMessage
-                });
             const result = yield this.contry.remove(input);
             return result[0] ? succes(200, { status: true, message: result[0] })
                 : badRequest(400, {
@@ -107,7 +103,6 @@ __decorate([
 ], Country.prototype, "Update", null);
 __decorate([
     (0, tsoa_1.Delete)("contries"),
-    (0, tsoa_1.Security)("Bearer", ["admin"]),
     __param(0, (0, tsoa_1.Body)()),
     __param(1, (0, tsoa_1.Res)()),
     __param(2, (0, tsoa_1.Res)()),

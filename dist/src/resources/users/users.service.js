@@ -24,7 +24,6 @@ const logger_1 = __importDefault(require("../../utils/logger"));
 const token_1 = __importDefault(require("../../utils/token"));
 function _update(_id, item) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log("valur to update:", item);
         return yield user_1.UserModel.findByIdAndUpdate({ _id }, item, { new: true });
     });
 }

@@ -33,16 +33,11 @@ function uploadImage(folderName, file) {
         try {
             const [isCreated, error] = yield checkDirectoryOrCreate(folder);
             if (isCreated) {
-                const destinationPath = `${folder}/ekival-${Date.now()}`;
-                yield fs_extra_1.default.outputFile(destinationPath, file.buffer);
                 let extArray = file.mimetype.split("/");
                 let ext = extArray[extArray.length - 1];
-                if (ext != "png" && ext != "jpg" && ext != "png")
-                    return ["", "Format du fichier non pris en charge."];
-                // let extension = extArray[extArray.length - 1];
-                // console.log(file)
-                // console.log("Extention:", extension)
-                return [destinationPath, ""];
+                const destinationPath = `${folder}/ekvl${Date.now()}.${ext}`;
+                yield fs_extra_1.default.outputFile(destinationPath, file.buffer);
+                return [`${destinationPath.replace(`public/`, "")}`, ""];
             }
             return ["", error];
         }
