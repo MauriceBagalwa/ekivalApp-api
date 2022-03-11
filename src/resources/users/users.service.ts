@@ -160,10 +160,10 @@ export default class UsersService {
   * Resend otp 
   */
   public async resendOTP(
-    item: Pick<ICustomerRequest, "userId">
+    item: Pick<ICustomerRequest, "email">
   ): Promise<[type: IUserType | undefined, error: string]> {
     try {
-      const find = await this.user.findOne({ _id: item.userId, status: false });
+      const find = await this.user.findOne({ email: item.email, status: false });
       if (!find) return [undefined, `Aucun utilisateur trouver.`];
       await this.otp.send(find, "confirmation");
       return [find, ``];
@@ -205,13 +205,16 @@ export default class UsersService {
   ): Promise<[type: IUserType | undefined, error: string]> {
     try {
       await validateSchema(signinFormat, item);
-      let user, find;
+      let user, find
       user = await this.user.findOne({ email: item.email, status: true });
-      if (user)
+      if (user) {
         find = await user.comparePassword(item.password as string);
+      }
 
+      const message = !user ? "Vous devez d'abord activez votre compte."
+        : "Adresse email ou mot de passe incorrect."
       return (user && find) ? [user as IUserType, token.createToken(user._id, user.role)]
-        : [undefined, `Adresse email ou mot de passe incorrect.`];
+        : [undefined, message];
     } catch (err: any) {
       logger.error(err.message);
       return [undefined, `${err.message}`];

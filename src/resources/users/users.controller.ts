@@ -74,7 +74,7 @@ export class Users extends Controller {
 
   @Post("users/account/resend-otp")
   public async resendOTP(
-    @Body() item: Pick<ICustomerRequest, "userId">,
+    @Body() item: Pick<ICustomerRequest, "email">,
     @Res() success: TsoaResponse<200, { status: true, user: any }>,
     @Res() badRequest: TsoaResponse<400, { status: false, message: string }>,
   ): Promise<any> {

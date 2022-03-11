@@ -143,9 +143,9 @@ const models: TsoaRoute.Models = {
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"userId":{"dataType":"string"},"phone":{"ref":"IPhone","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Pick_ICustomerRequest.userId_": {
+    "Pick_ICustomerRequest.email_": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"userId":{"dataType":"string"}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"email":{"dataType":"string","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Pick_IOtp.userId-or-otp_": {
@@ -161,6 +161,11 @@ const models: TsoaRoute.Models = {
     "Pick_ICustomerRequest.password-or-oldPassword_": {
         "dataType": "refAlias",
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"oldPassword":{"dataType":"string"},"password":{"dataType":"string"}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Pick_ICustomerRequest.userId_": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"userId":{"dataType":"string"}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "TypeUser": {
@@ -669,7 +674,7 @@ export function RegisterRoutes(app: express.Router) {
 
             function Users_resendOTP(request: any, response: any, next: any) {
             const args = {
-                    item: {"in":"body","name":"item","required":true,"ref":"Pick_ICustomerRequest.userId_"},
+                    item: {"in":"body","name":"item","required":true,"ref":"Pick_ICustomerRequest.email_"},
                     success: {"in":"res","name":"200","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"user":{"dataType":"any","required":true},"status":{"dataType":"enum","enums":[true],"required":true}}},
                     badRequest: {"in":"res","name":"400","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"message":{"dataType":"string","required":true},"status":{"dataType":"enum","enums":[false],"required":true}}},
             };

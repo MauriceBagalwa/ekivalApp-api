@@ -155,7 +155,7 @@ class UsersService {
     resendOTP(item) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const find = yield this.user.findOne({ _id: item.userId, status: false });
+                const find = yield this.user.findOne({ email: item.email, status: false });
                 if (!find)
                     return [undefined, `Aucun utilisateur trouver.`];
                 yield this.otp.send(find, "confirmation");
@@ -200,10 +200,13 @@ class UsersService {
                 yield (0, validate_resource_1.validateSchema)(user_validate_1.signinFormat, item);
                 let user, find;
                 user = yield this.user.findOne({ email: item.email, status: true });
-                if (user)
+                if (user) {
                     find = yield user.comparePassword(item.password);
+                }
+                const message = !user ? "Vous devez d'abord activez votre compte."
+                    : "Adresse email ou mot de passe incorrect.";
                 return (user && find) ? [user, token_1.default.createToken(user._id, user.role)]
-                    : [undefined, `Adresse email ou mot de passe incorrect.`];
+                    : [undefined, message];
             }
             catch (err) {
                 logger_1.default.error(err.message);
