@@ -56,6 +56,11 @@ class App {
     initMiddleware() {
         this.express.use((0, helmet_1.default)());
         this.express.use((0, cors_1.default)());
+        this.express.use(function (req, res, next) {
+            res.header("Access-Control-Allow-Origin", "*");
+            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+            next();
+        });
         this.express.use(express_1.default.json());
         this.express.use(body_parser_1.default.json());
         this.initializeDbConnection();

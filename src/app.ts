@@ -14,7 +14,6 @@ import mongoose from "mongoose";
 import cors from "cors";
 import { ValidateError } from "tsoa";
 
-
 export default class App {
   public express: Application;
   public port: number;
@@ -32,6 +31,15 @@ export default class App {
 
     this.express.use(helmet());
     this.express.use(cors());
+
+    this.express.use(function (req: ExRequest,
+      res: ExResponse,
+      next: NextFunction) {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+      next();
+    });
+
     this.express.use(express.json());
     this.express.use(bodyParser.json());
     this.initializeDbConnection();
