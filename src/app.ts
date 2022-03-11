@@ -36,6 +36,8 @@ export default class App {
       res: ExResponse,
       next: NextFunction) {
       res.header("Access-Control-Allow-Origin", "*");
+      res.header("Cross-Origin-Resource-Policy", "cross-origin");
+      res.header("Cross-Origin-Opener-Policy", "cross-origin");
       res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
       next();
     });
