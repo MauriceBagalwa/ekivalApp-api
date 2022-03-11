@@ -31,9 +31,9 @@ export default class App {
   private initMiddleware(): void {
 
     this.express.use(helmet());
+    this.express.use(cors());
     this.express.use(express.json());
     this.express.use(bodyParser.json());
-    this.express.use(cors());
     this.initializeDbConnection();
     this.initializeErrorHanlding();
     require("dotenv").config();

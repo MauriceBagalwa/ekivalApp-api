@@ -55,9 +55,9 @@ class App {
     // INIT MIDDLEWARE
     initMiddleware() {
         this.express.use((0, helmet_1.default)());
+        this.express.use((0, cors_1.default)());
         this.express.use(express_1.default.json());
         this.express.use(body_parser_1.default.json());
-        this.express.use((0, cors_1.default)());
         this.initializeDbConnection();
         this.initializeErrorHanlding();
         require("dotenv").config();
