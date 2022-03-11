@@ -559,7 +559,7 @@ export function RegisterRoutes(app: express.Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/v1/api/users/siginup',
+        app.post('/v1/api/users/signup',
 
             function Users_createCustomer(request: any, response: any, next: any) {
             const args = {
@@ -584,7 +584,7 @@ export function RegisterRoutes(app: express.Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/v1/api/admin/users/siginup',
+        app.post('/v1/api/admin/users/signup',
             authenticateMiddleware([{"Bearer":["admin"]}]),
 
             function Users_createUsers(request: any, response: any, next: any) {
@@ -665,7 +665,7 @@ export function RegisterRoutes(app: express.Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/v1/api/users/acount/resend-otp',
+        app.post('/v1/api/users/account/resend-otp',
 
             function Users_resendOTP(request: any, response: any, next: any) {
             const args = {
