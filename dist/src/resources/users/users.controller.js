@@ -169,13 +169,13 @@ let Users = class Users extends tsoa_1.Controller {
     }
 };
 __decorate([
-    (0, tsoa_1.Post)("users/siginup"),
+    (0, tsoa_1.Post)("users/signup"),
     __param(0, (0, tsoa_1.Body)()),
     __param(1, (0, tsoa_1.Res)()),
     __param(2, (0, tsoa_1.Res)())
 ], Users.prototype, "createCustomer", null);
 __decorate([
-    (0, tsoa_1.Post)("admin/users/siginup"),
+    (0, tsoa_1.Post)("admin/users/signup"),
     (0, tsoa_1.Security)("Bearer", ["admin"]),
     __param(0, (0, tsoa_1.Body)()),
     __param(1, (0, tsoa_1.Res)()),
@@ -199,7 +199,7 @@ __decorate([
     __param(3, (0, tsoa_1.Request)())
 ], Users.prototype, "changePhoneNunber", null);
 __decorate([
-    (0, tsoa_1.Post)("users/acount/resend-otp"),
+    (0, tsoa_1.Post)("users/account/resend-otp"),
     __param(0, (0, tsoa_1.Body)()),
     __param(1, (0, tsoa_1.Res)()),
     __param(2, (0, tsoa_1.Res)())

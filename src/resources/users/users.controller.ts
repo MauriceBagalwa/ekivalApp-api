@@ -17,7 +17,7 @@ export class Users extends Controller {
 
   private user = new Service();
 
-  @Post("users/siginup")
+  @Post("users/signup")
   public async createCustomer(
     @Body() item: Omit<ICustomerRequest, "userId" | "role" | "otp" | "oldPassword">,
     @Res() success: TsoaResponse<200, { status: true, user: any }>,
@@ -28,7 +28,7 @@ export class Users extends Controller {
       : badRequest(400, { status: false, message: result[1] })
   }
 
-  @Post("admin/users/siginup")
+  @Post("admin/users/signup")
   @Security("Bearer", ["admin"])
   public async createUsers(
     @Body() item: Omit<ICustomerRequest, "userId" | "region" | "otp" | "password" | "oldPassword">,
@@ -72,7 +72,7 @@ export class Users extends Controller {
       : badRequest(400, { status: false, message: result[1] })
   }
 
-  @Post("users/acount/resend-otp")
+  @Post("users/account/resend-otp")
   public async resendOTP(
     @Body() item: Pick<ICustomerRequest, "userId">,
     @Res() success: TsoaResponse<200, { status: true, user: any }>,
