@@ -479,7 +479,7 @@ function RegisterRoutes(app) {
         }
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.post('/v1/api/users/siginup', function Users_createCustomer(request, response, next) {
+    app.post('/v1/api/users/signup', function Users_createCustomer(request, response, next) {
         const args = {
             item: { "in": "body", "name": "item", "required": true, "ref": "Omit_ICustomerRequest.userId-or-role-or-otp-or-oldPassword_" },
             success: { "in": "res", "name": "200", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "user": { "dataType": "any", "required": true }, "status": { "dataType": "enum", "enums": [true], "required": true } } },
@@ -498,7 +498,7 @@ function RegisterRoutes(app) {
         }
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.post('/v1/api/admin/users/siginup', authenticateMiddleware([{ "Bearer": ["admin"] }]), function Users_createUsers(request, response, next) {
+    app.post('/v1/api/admin/users/signup', authenticateMiddleware([{ "Bearer": ["admin"] }]), function Users_createUsers(request, response, next) {
         const args = {
             item: { "in": "body", "name": "item", "required": true, "ref": "Omit_ICustomerRequest.userId-or-region-or-otp-or-password-or-oldPassword_" },
             success: { "in": "res", "name": "200", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "user": { "dataType": "any", "required": true }, "status": { "dataType": "enum", "enums": [true], "required": true } } },
@@ -559,7 +559,7 @@ function RegisterRoutes(app) {
         }
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.post('/v1/api/users/acount/resend-otp', function Users_resendOTP(request, response, next) {
+    app.post('/v1/api/users/account/resend-otp', function Users_resendOTP(request, response, next) {
         const args = {
             item: { "in": "body", "name": "item", "required": true, "ref": "Pick_ICustomerRequest.userId_" },
             success: { "in": "res", "name": "200", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "user": { "dataType": "any", "required": true }, "status": { "dataType": "enum", "enums": [true], "required": true } } },

@@ -1617,7 +1617,7 @@
                 }
             }
         },
-        "/api/users/siginup": {
+        "/api/users/signup": {
             "post": {
                 "operationId": "CreateCustomer",
                 "responses": {
@@ -1689,7 +1689,7 @@
                 }
             }
         },
-        "/api/admin/users/siginup": {
+        "/api/admin/users/signup": {
             "post": {
                 "operationId": "CreateUsers",
                 "responses": {
@@ -2045,7 +2045,7 @@
                 }
             }
         },
-        "/api/users/acount/resend-otp": {
+        "/api/users/account/resend-otp": {
             "post": {
                 "operationId": "ResendOTP",
                 "responses": {
