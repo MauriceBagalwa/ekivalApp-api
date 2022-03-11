@@ -30,7 +30,7 @@ var TypeUser;
     TypeUser["system"] = "system";
     TypeUser["customer"] = "customer";
 })(TypeUser || (TypeUser = {}));
-const authMessage = "Vous ne disposez pas de droit pour effectuer cette demande.";
+const authMessage = "Vous ne disposez pas de droit pour effectuer cette opération.";
 let Users = class Users extends tsoa_1.Controller {
     constructor() {
         super(...arguments);

@@ -9,7 +9,7 @@ enum TypeUser {
   customer = "customer"
 }
 
-const authMessage = "Vous ne disposez pas de droit pour effectuer cette demande."
+const authMessage = "Vous ne disposez pas de droit pour effectuer cette opération."
 
 @Route("api")
 @Tags("Users")
