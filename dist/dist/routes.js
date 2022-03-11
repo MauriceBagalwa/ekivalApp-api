@@ -157,9 +157,9 @@ const models = {
         "type": { "dataType": "nestedObjectLiteral", "nestedProperties": { "email": { "dataType": "string", "required": true } }, "validators": {} },
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Pick_IOtp.userId-or-otp_": {
+    "Pick_IOtp.email-or-otp_": {
         "dataType": "refAlias",
-        "type": { "dataType": "nestedObjectLiteral", "nestedProperties": { "userId": { "dataType": "string" }, "otp": { "dataType": "double" } }, "validators": {} },
+        "type": { "dataType": "nestedObjectLiteral", "nestedProperties": { "otp": { "dataType": "double" }, "email": { "dataType": "string" } }, "validators": {} },
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Pick_ICustomerRequest.email-or-password_": {
@@ -585,7 +585,7 @@ function RegisterRoutes(app) {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     app.post('/v1/api/users/account/active', function Users_activeAcount(request, response, next) {
         const args = {
-            item: { "in": "body", "name": "item", "required": true, "ref": "Pick_IOtp.userId-or-otp_" },
+            item: { "in": "body", "name": "item", "required": true, "ref": "Pick_IOtp.email-or-otp_" },
             success: { "in": "res", "name": "200", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "token": { "dataType": "string", "required": true }, "user": { "dataType": "any", "required": true }, "status": { "dataType": "enum", "enums": [true], "required": true } } },
             badRequest: { "in": "res", "name": "400", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "message": { "dataType": "string", "required": true }, "status": { "dataType": "enum", "enums": [false], "required": true } } },
         };

@@ -85,7 +85,7 @@ export class Users extends Controller {
 
   @Post("users/account/active")
   public async activeAcount(
-    @Body() item: Pick<IOtp, "userId" | "otp">,
+    @Body() item: Pick<IOtp, "email" | "otp">,
     @Res() success: TsoaResponse<200, { status: true, user: any, token: string }>,
     @Res() badRequest: TsoaResponse<400, { status: false, message: string }>,
   ): Promise<any> {

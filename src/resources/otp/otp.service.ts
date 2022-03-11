@@ -1,6 +1,6 @@
 import { OtpModel, IOtp } from "./otp";
 import { randomCode, sendSMS } from "../../utils/stringTypes.utils";
-import { } from "../users/users.service";
+import { IPhone } from "../users/user";
 import logger from "../../utils/logger";
 
 export type IOtpCreation = Pick<IOtp, "user">;
@@ -24,7 +24,7 @@ export default class Otp {
         { upsert: true }
       );
 
-      sendSMS(item.phone, `Ekival: votre code de ${index} est: ${otp}. Il expire dans 10 minutes.`)
+      sendSMS(item.phone as IPhone, `Ekival: votre code de ${index} est: ${otp}. Il expire dans 10 minutes.`)
       return [result as unknown as IOtp, ""];
     } catch (err: any) {
       logger.error(err.message);

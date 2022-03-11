@@ -177,20 +177,22 @@ export default class UsersService {
    * Active Acount
    */
   public async activeAccount(
-    item: Pick<IOtp, "userId" | "otp">
+    item: IOtp
   ): Promise<[type: IUserType | undefined, error: string]> {
     try {
       let findOtp
       let result
-      const findUser = await this.user.findOne({ _id: item.userId, status: false });
+      const findUser = await this.user.findOne({ email: item.email, status: false });
       if (findUser) {
+        item.userId = findUser._id
         findOtp = await this.otp.findOtp(item)
         console.log(`Etat Otp: ${findOtp ? true : false}`)
-        if (findOtp)
+        if (findOtp) {
           result = await _update(item.userId, { status: true })
+        }
       }
       return (findUser && result) ? [result as IUserType, token.createToken(result._id, result.role)]
-        : [undefined, `Code saisi est incorrect ou déjà expirer.`]
+        : [undefined, `Code incorrect ou déjà expirer.`]
     } catch (err: any) {
       logger.error(err.message);
       return [undefined, `${err.message}`];

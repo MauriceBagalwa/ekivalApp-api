@@ -175,15 +175,17 @@ class UsersService {
             try {
                 let findOtp;
                 let result;
-                const findUser = yield this.user.findOne({ _id: item.userId, status: false });
+                const findUser = yield this.user.findOne({ email: item.email, status: false });
                 if (findUser) {
+                    item.userId = findUser._id;
                     findOtp = yield this.otp.findOtp(item);
                     console.log(`Etat Otp: ${findOtp ? true : false}`);
-                    if (findOtp)
+                    if (findOtp) {
                         result = yield _update(item.userId, { status: true });
+                    }
                 }
                 return (findUser && result) ? [result, token_1.default.createToken(result._id, result.role)]
-                    : [undefined, `Code saisi est incorrect ou déjà expirer.`];
+                    : [undefined, `Code incorrect ou déjà expirer.`];
             }
             catch (err) {
                 logger_1.default.error(err.message);

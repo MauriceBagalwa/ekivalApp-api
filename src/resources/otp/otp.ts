@@ -6,9 +6,10 @@ import { IPhone } from '../users/user'
 export interface IOtp {
   otpId?: string;
   userId?: string;
-  user: string;
+  email?: string;
+  user?: string;
   otp?: number;
-  phone: IPhone;
+  phone?: IPhone;
 }
 
 const OtpSchema = new Schema({
