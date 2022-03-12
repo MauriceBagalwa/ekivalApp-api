@@ -208,13 +208,15 @@ export default class UsersService {
     try {
       await validateSchema(signinFormat, item);
       let user, find
-      user = await this.user.findOne({ email: item.email, status: true });
-      if (user) {
-        find = await user.comparePassword(item.password as string);
-      }
+      user = await this.user.findOne({ email: item.email });
 
-      const message = !user ? "Vous devez d'abord activez votre compte."
+      if (user)
+        if (user.status)
+          find = await user.comparePassword(item.password as string);
+
+      const message = (user && !user.status) ? "Vous devez d'abord activez votre compte."
         : "Adresse email ou mot de passe incorrect."
+
       return (user && find) ? [user as IUserType, token.createToken(user._id, user.role)]
         : [undefined, message];
     } catch (err: any) {

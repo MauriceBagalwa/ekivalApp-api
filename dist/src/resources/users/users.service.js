@@ -201,11 +201,11 @@ class UsersService {
             try {
                 yield (0, validate_resource_1.validateSchema)(user_validate_1.signinFormat, item);
                 let user, find;
-                user = yield this.user.findOne({ email: item.email, status: true });
-                if (user) {
-                    find = yield user.comparePassword(item.password);
-                }
-                const message = !user ? "Vous devez d'abord activez votre compte."
+                user = yield this.user.findOne({ email: item.email });
+                if (user)
+                    if (user.status)
+                        find = yield user.comparePassword(item.password);
+                const message = (user && !user.status) ? "Vous devez d'abord activez votre compte."
                     : "Adresse email ou mot de passe incorrect.";
                 return (user && find) ? [user, token_1.default.createToken(user._id, user.role)]
                     : [undefined, message];
