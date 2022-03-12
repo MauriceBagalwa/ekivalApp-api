@@ -203,11 +203,10 @@ class UsersService {
                 let user, find;
                 user = yield this.user.findOne({ email: item.email });
                 if (user)
-                    if (user.status)
-                        find = yield user.comparePassword(item.password);
-                const message = (user && !user.status) ? "Vous devez d'abord activez votre compte."
+                    find = yield user.comparePassword(item.password);
+                const message = (user && find && !user.status) ? "Vous devez d'abord activez votre compte."
                     : "Adresse email ou mot de passe incorrect.";
-                return (user && find) ? [user, token_1.default.createToken(user._id, user.role)]
+                return (user && find && user.status) ? [user, token_1.default.createToken(user._id, user.role)]
                     : [undefined, message];
             }
             catch (err) {

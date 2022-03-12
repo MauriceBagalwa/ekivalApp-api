@@ -211,13 +211,11 @@ export default class UsersService {
       user = await this.user.findOne({ email: item.email });
 
       if (user)
-        if (user.status)
-          find = await user.comparePassword(item.password as string);
+        find = await user.comparePassword(item.password as string);
 
-      const message = (user && !user.status) ? "Vous devez d'abord activez votre compte."
+      const message = (user && find && !user.status) ? "Vous devez d'abord activez votre compte."
         : "Adresse email ou mot de passe incorrect."
-
-      return (user && find) ? [user as IUserType, token.createToken(user._id, user.role)]
+      return (user && find && user.status) ? [user as IUserType, token.createToken(user._id, user.role)]
         : [undefined, message];
     } catch (err: any) {
       logger.error(err.message);
